@@ -5,7 +5,7 @@
  * File Created: 2024-06-14, 11:35:16
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-06-14, 15:40:49
+ * Last Modified: 2024-06-15, 21:24:58
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -126,9 +126,10 @@ class Calendar {
             foreach ($orderDays as $day) {
                 if ($day < $this->firstDayOfMonth && $empty && $column < 7) {
                     $calendarWeeks[$column][] = null;
-                } else if (condition) {
-                    # code...
-                }
+                } 
+                // else if (condition) {
+                //     # code...
+                // }
                 $dayOfMonth++;
                 $column++;
             }
