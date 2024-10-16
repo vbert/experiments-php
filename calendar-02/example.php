@@ -5,7 +5,7 @@
  * File Created: 2024-06-14, 9:07:42
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-06-14, 11:49:44
+ * Last Modified: 2024-10-16, 15:14:10
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -112,9 +112,7 @@ for(;$month <= 12; $month++) {
     ];
 }
 
-
 print_r($monthCalendars);
-
 var_dump($arrayCalendar);
 
 // return $calendar;

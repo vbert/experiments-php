@@ -5,26 +5,27 @@
  * File Created: 2024-06-14, 20:01:27
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-06-14, 20:58:00
+ * Last Modified: 2024-10-16, 12:43:25
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
  */
 
 interface CalendarInterface {
-    public function generate($year = null, $month = null);
+    public function generate($year = null, $month = null, $day = null);
 }
 
 class Calendar implements CalendarInterface {
     private $year;
     private $month;
 
-    public function __construct($year = null, $month = null) {
+    public function __construct($year = null, $month = null, $day = null) {
         $this->year = $year ? (int) $year : (int) date('Y');
         $this->month = $month ? (int) $month : (int) date('m');
+        $this->day = $day ? (int) $day : (int) date('d');
     }
 
-    public function generate($year = null, $month = null) {
+    public function generate($year = null, $month = null, $day = null) {
         $year = $year ? $year : $this->year;
         $month = $month ? $month : $this->month;
 
@@ -32,7 +33,7 @@ class Calendar implements CalendarInterface {
         $daysInMonth = $firstDayOfMonth->format('t');
 
         $firstDayOfWeek = (clone $firstDayOfMonth)->modify('last monday');
-        $lastDayOfMonth = (clone $firstDayOfMonth)->modify("last day of this month");
+        $lastDayOfMonth = (clone $firstDayOfMonth)->modify('last day of this month');
         $lastDayOfWeek = (clone $lastDayOfMonth)->modify('next sunday');
 
         $calendar = [];
