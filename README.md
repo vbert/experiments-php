@@ -1,2 +1,2 @@
-# experiments-js
-Experiments with pure javascript code
+# experiments-php
+Experiments with php code
