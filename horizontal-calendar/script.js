@@ -1,192 +1,209 @@
-$(document).ready(function()
-{
-	// for region page
-	// $("table .wkend").parent('tr').nextAll().addBack().find('td').addClass('bordrleft');
-	$('.wkend').each( function() {
-		var $tr = $(this).parent();
-		var col = $tr.children().index($(this))+1;
-		// mark cell above
-		$tr.prev().children().eq(col).addClass('bordrleft');
-		// mark cell itsefl
-		$tr.children().eq(col).addClass('bordrleft');
-		// mark all cells below
-		$tr.nextAll().find('td:nth-child('+($(this).index()+2)+')').addClass('bordrleft');
-	});
+$(document).ready(function() {
+    // for region page
+    // $("table .wkend").parent('tr').nextAll().addBack().find('td').addClass('bordrleft');
+    $('.wkend').each( function() {
+        var $tr = $(this).parent();
+        var col = $tr.children().index($(this))+1;
+        // mark cell above
+        $tr.prev().children().eq(col).addClass('bordrleft');
+        // mark cell itsefl
+        $tr.children().eq(col).addClass('bordrleft');
+        // mark all cells below
+        $tr.nextAll().find('td:nth-child('+($(this).index()+2)+')').addClass('bordrleft');
+    });
 
-	$('.today').each( function() {
-		var cellpos = $(this).index()+1;
-		var ttr = $(this).parent();
-		// th border at the right
-		$(this).next().addClass('bordrtoday');
-		// mark all cells below today
-		// all borders at the left
-		ttr.nextAll().find('td:nth-child('+cellpos+')').addClass('bordrtoday');
-		// all borders at the right
-		ttr.nextAll().find('td:nth-child('+(cellpos+1)+')').addClass('bordrtoday');
-		// last cell with border bottom
-		ttr.nextAll().last().find('td:nth-child('+cellpos+')').addClass('bordrBTMtoday');
-	});
+    $('.today').each( function() {
+        var cellpos = $(this).index()+1;
+        var ttr = $(this).parent();
+        // th border at the right
+        $(this).next().addClass('bordrtoday');
+        // mark all cells below today
+        // all borders at the left
+        ttr.nextAll().find('td:nth-child('+cellpos+')').addClass('bordrtoday');
+        // all borders at the right
+        ttr.nextAll().find('td:nth-child('+(cellpos+1)+')').addClass('bordrtoday');
+        // last cell with border bottom
+        ttr.nextAll().last().find('td:nth-child('+cellpos+')').addClass('bordrBTMtoday');
+    });
 
-	// mark sa and so in head
-	$('.bordered td').each( function() {
-		if( $(this).text() == 'Sa' || $(this).text() == 'So' ) {
-			$(this).addClass('saso-mark');
-		}
-	});
-	// background color fields for sa and so
-	$('.saso-mark').each( function() {
-		// mark all cells below
-		var cellpos = $(this).index()+1;
-   		$(this).parent().nextAll().find('td:nth-child('+cellpos+'):not(:contains("x"))').css('background', 'rgba(200,190,180,0.35)');
-	});
+    // mark sa and so in head
+    $('.bordered td').each( function() {
+        if( $(this).text() == 'Sa' || $(this).text() == 'So' ) {
+            $(this).addClass('saso-mark');
+        }
+    });
+    // background color fields for sa and so
+    $('.saso-mark').each( function() {
+        // mark all cells below
+        var cellpos = $(this).index()+1;
+           $(this).parent().nextAll().find('td:nth-child('+cellpos+'):not(:contains("x"))').css('background', 'rgba(200,190,180,0.35)');
+    });
 
-	$('#datepicker').Zebra_DatePicker({
-		direction: ['2013-01', '2032-12'],
-		format: 'Y-m',
-		lang_clear_date: '', 
-		months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-		offset: [20,250], 
-		onSelect: function(view, elements) {
-		   window.location.href = '/holidays/?m='+view;
-		}
-	});
-	$('#datepickbtn').click(function(e) {
-		e.preventDefault();
-		var plugin = $('input#datepicker').data('Zebra_DatePicker');
-		if (!$(this).data('dp_visible')) {
-			$(this).data('dp_visible', true);
-			plugin.show();
-		}
-		else {
-			$(this).data('dp_visible', false);
-			plugin.hide();
-		}
-	});
+    $('#datepicker').Zebra_DatePicker({
+        direction: ['2013-01', '2032-12'],
+        format: 'Y-m',
+        lang_clear_date: '', 
+        months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+        offset: [20,250], 
+        onSelect: function(view, elements) {
+           window.location.href = '/experiments-php/horizontal-calendar/index.php?m='+view;
+        }
+    });
+    $('#datepickbtn').click(function(e) {
+        e.preventDefault();
+        var plugin = $('input#datepicker').data('Zebra_DatePicker');
+        if (!$(this).data('dp_visible')) {
+            $(this).data('dp_visible', true);
+            plugin.show();
+        }
+        else {
+            $(this).data('dp_visible', false);
+            plugin.hide();
+        }
+    });
 
-	$('.bordered td:first-child a').tipsy( {gravity: 'w', fade: false, offset: 5, html:true} );
-	$('.bordered tr:first-child td').tipsy( {gravity: 's', fade: false, offset: 5} );
-	$('.bordered tr:nth-child(-n+2) td').tipsy( {gravity: 's', fade: false, offset: 5} );
-	$('.bordered .free').tipsy( {gravity: 's', fade: false, offset: 5, html:true} );
-	$('.today').tipsy( {gravity: 's', fade: false, offset: 5} );
-	$('.navpre').tipsy( {gravity: 'w', fade: false, offset: 5} );
-	$('.navfwd').tipsy( {gravity: 'w', fade: false, offset: 5} );
-	
-	$('.tooltipS').tipsy( {gravity: 'n', fade: false, offset: 15} );
-	$('.tooltipN').tipsy( {gravity: 's', fade: false, offset: 15} );
-	// $('.bordered td span').tipsy( {gravity: 'w', fade: false, offset: 5} );
-	
-	/* display shortlink if symbol in sharebox is clicked */
-	$('.shlink').click( function(e) {
-		e.preventDefault();
-		// if not yet created
-		if( $('.shlinktxt').length==0) {
-			var long_url = $('.shlink').attr('href');
-			console.log(long_url);
-			get_short_url(long_url, function(short_url) {
-				// var ahref = $('.shlink').attr('href');
-				$('<div class="shlinktxt"><input type="text" value="'+short_url+'"></input></div>').insertAfter('.shtw');
-				$('.shlinktxt input').select();
-				console.log(short_url);
-			});
-		}
-		else {
-			$('.shlinktxt').toggle();
-			$('.shlinktxt input').select();
-		}
-	});
-	// open share links in new window
-	$('.shfb,.shgp,.shtw').click( function(e) {
-		e.preventDefault();
-		window.open($(this).attr('href'),'','width=500,height=400');
-	});
-	
-	$('#setDE').click( function() {
-		if( $('.t_de').is(':visible') ) {
-			$('.t_de').hide();
-			$('#setDE').removeClass('germany');
-			$('#setDE').addClass('germany_off');
-		}
-		else {
-			$('.t_de').show();
-			$('#setDE').removeClass('germany_off');
-			$('#setDE').addClass('germany');
-		}
-		// remember choice in cookie
-		if(initdone) {
-			setCookie('holidaycook', calcBinFlag(), 60);
-		}
-	});
-	$('#setCH').click( function() {
-		if( $('.t_ch').is(':visible') ) {
-			$('.t_ch').hide();
-			$('#setCH').removeClass('swiss1');
-			$('#setCH').addClass('swiss1_off');
-		}
-		else {
-			$('.t_ch').show();
-			$('#setCH').removeClass('swiss1_off');
-			$('#setCH').addClass('swiss1');
-		}
-		if(initdone) {
-			setCookie('holidaycook', calcBinFlag(), 60);
-		}
-	});
-	$('#setAT').click( function() {
-		if( $('.t_at').is(':visible') ) {
-			$('.t_at').hide();
-			$('#setAT').removeClass('austria');
-			$('#setAT').addClass('austria_off');
-		}
-		else {
-			$('.t_at').show();
-			$('#setAT').removeClass('austria_off');
-			$('#setAT').addClass('austria');
-		}
-		if(initdone) {
-			setCookie('holidaycook', calcBinFlag(), 60);
-		}
-	});
+    $('.bordered td:first-child a').tipsy( {gravity: 'w', fade: false, offset: 5, html:true} );
+    $('.bordered tr:first-child td').tipsy( {gravity: 's', fade: false, offset: 5} );
+    $('.bordered tr:nth-child(-n+2) td').tipsy( {gravity: 's', fade: false, offset: 5} );
+    $('.bordered .free').tipsy( {gravity: 's', fade: false, offset: 5, html:true} );
+    $('.today').tipsy( {gravity: 's', fade: false, offset: 5} );
+    $('.navpre').tipsy( {gravity: 'w', fade: false, offset: 5} );
+    $('.navfwd').tipsy( {gravity: 'w', fade: false, offset: 5} );
+    
+    $('.tooltipS').tipsy( {gravity: 'n', fade: false, offset: 15} );
+    $('.tooltipN').tipsy( {gravity: 's', fade: false, offset: 15} );
+    // $('.bordered td span').tipsy( {gravity: 'w', fade: false, offset: 5} );
+    
+    /* display shortlink if symbol in sharebox is clicked */
+    $('.shlink').click( function(e) {
+        e.preventDefault();
+        // if not yet created
+        if( $('.shlinktxt').length==0) {
+            var long_url = $('.shlink').attr('href');
+            console.log(long_url);
+            get_short_url(long_url, function(short_url) {
+                // var ahref = $('.shlink').attr('href');
+                $('<div class="shlinktxt"><input type="text" value="'+short_url+'"></input></div>').insertAfter('.shtw');
+                $('.shlinktxt input').select();
+                console.log(short_url);
+            });
+        }
+        else {
+            $('.shlinktxt').toggle();
+            $('.shlinktxt input').select();
+        }
+    });
+    // open share links in new window
+    $('.shfb,.shgp,.shtw').click( function(e) {
+        e.preventDefault();
+        window.open($(this).attr('href'),'','width=500,height=400');
+    });
+    
+    $('#setDE').click( function() {
+        if( $('.t_de').is(':visible') ) {
+            $('.t_de').hide();
+            $('#setDE').removeClass('germany');
+            $('#setDE').addClass('germany_off');
+        }
+        else {
+            $('.t_de').show();
+            $('#setDE').removeClass('germany_off');
+            $('#setDE').addClass('germany');
+        }
+        // remember choice in cookie
+        if(initdone) {
+            setCookie('holidaycook', calcBinFlag(), 60);
+        }
+    });
+    $('#setCH').click( function() {
+        if( $('.t_ch').is(':visible') ) {
+            $('.t_ch').hide();
+            $('#setCH').removeClass('swiss1');
+            $('#setCH').addClass('swiss1_off');
+        }
+        else {
+            $('.t_ch').show();
+            $('#setCH').removeClass('swiss1_off');
+            $('#setCH').addClass('swiss1');
+        }
+        if(initdone) {
+            setCookie('holidaycook', calcBinFlag(), 60);
+        }
+    });
+    $('#setAT').click( function() {
+        if( $('.t_at').is(':visible') ) {
+            $('.t_at').hide();
+            $('#setAT').removeClass('austria');
+            $('#setAT').addClass('austria_off');
+        }
+        else {
+            $('.t_at').show();
+            $('#setAT').removeClass('austria_off');
+            $('#setAT').addClass('austria');
+        }
+        if(initdone) {
+            setCookie('holidaycook', calcBinFlag(), 60);
+        }
+    });
+    $('#setPL').click( function() {
+        if( $('.t_pl').is(':visible') ) {
+            $('.t_pl').hide();
+            $('#setPL').removeClass('poland');
+            $('#setPL').addClass('poland_off');
+        }
+        else {
+            $('.t_pl').show();
+            $('#setPL').removeClass('poland_off');
+            $('#setPL').addClass('poland');
+        }
+        if(initdone) {
+            setCookie('holidaycook', calcBinFlag(), 60);
+        }
+    });
 
-	$('#changeRegion').click( function() {
-		$('#regionsNav').toggle();
-		if( $('#regionsNav').is(':visible') ) {
-			$('#arrowud').text('▲');
-		}
-		else {
-			$('#arrowud').text('▼');
-		}
-		
-	});
-	
-	// start clock
-	if($('#clock').length>0)
-	{
-		startTime();		
-	}
-	
-	// keep tr bg-colored if clicked
-	$('.bordered tr').click( function() {
-		$(this).addClass('tractive').siblings().removeClass('tractive');
-	});
-	
-	/* START up settings, only on main page */
-	if($('.holidaysm').length>0) {
-		var binflag = getCookie('holidayshd');
-		var initdone = false;
-		if(binflag) {
-			if((binflag&1)==1) {
-				$('#setDE').trigger('click');
-			}
-			if((binflag&2)==2) {
-				$('#setCH').trigger('click');
-			}
-			if((binflag&4)==4) {
-				$('#setAT').trigger('click');
-			}
-		}
-		// set variable to true to allow setcookie for click event after startup
-		initdone = true;
-	}
+    $('#changeRegion').click( function() {
+        $('#regionsNav').toggle();
+        if( $('#regionsNav').is(':visible') ) {
+            $('#arrowud').text('▲');
+        }
+        else {
+            $('#arrowud').text('▼');
+        }
+        
+    });
+    
+    // start clock
+    if($('#clock').length>0)
+    {
+        startTime();		
+    }
+    
+    // keep tr bg-colored if clicked
+    $('.bordered tr').click( function() {
+        $(this).addClass('tractive').siblings().removeClass('tractive');
+    });
+    
+    /* START up settings, only on main page */
+    if($('.holidaysm').length>0) {
+        var binflag = getCookie('holidayshd');
+        var initdone = false;
+        if(binflag) {
+            if((binflag&1)==1) {
+                $('#setDE').trigger('click');
+            }
+            if((binflag&2)==2) {
+                $('#setCH').trigger('click');
+            }
+            if((binflag&4)==4) {
+                $('#setAT').trigger('click');
+            }
+            if((binflag&8)==8) {
+                $('#setPL').trigger('click');
+            }
+        }
+        // set variable to true to allow setcookie for click event after startup
+        initdone = true;
+    }
 
 }); // END JQUERY-ready
 
@@ -205,52 +222,53 @@ function get_short_url(long_url, func) {
         }
     );
 }
-	
+    
 /* simple clock */
 function startTime() {
-	var today=new Date();
-	var h=today.getHours();
-	var m=today.getMinutes();
-	var s=today.getSeconds();
-	// add a zero in front of numbers<10
-	m=checkTime(m);
-	document.getElementById('clock').innerHTML=h+':'+m+' Uhr'; //+' ⏰'; // &#x231A;
-	t=setTimeout(function(){startTime()},500);
+    var today=new Date();
+    var h=today.getHours();
+    var m=today.getMinutes();
+    var s=today.getSeconds();
+    // add a zero in front of numbers<10
+    m=checkTime(m);
+    document.getElementById('clock').innerHTML=h+':'+m+' Uhr'; //+' ⏰'; // &#x231A;
+    t=setTimeout(function(){startTime()},500);
 }
 function checkTime(i){
-	if (i<10){
-		i="0" + i;
-	}
-	return i;
+    if (i<10){
+        i="0" + i;
+    }
+    return i;
 }
 
 function calcBinFlag() {
-	var fl_de = $('.t_de').is(':visible') ? 0 : 1;
-	var fl_ch = $('.t_ch').is(':visible') ? 0 : 2;
-	var fl_at = $('.t_at').is(':visible') ? 0 : 4;
-	//console.log(fl_de+" & "+fl_ch+" & "+fl_at);
-	//console.log(fl_de | fl_ch | fl_at);
-	return (fl_de|fl_ch|fl_at);
+    var fl_de = $('.t_de').is(':visible') ? 0 : 1;
+    var fl_ch = $('.t_ch').is(':visible') ? 0 : 2;
+    var fl_at = $('.t_at').is(':visible') ? 0 : 4;
+    var fl_at = $('.t_pl').is(':visible') ? 0 : 8;
+    //console.log(fl_de+" & "+fl_ch+" & "+fl_at);
+    //console.log(fl_de | fl_ch | fl_at);
+    return (fl_de|fl_ch|fl_at|fl_pl);
 }
 
 function setCookie(name,value,days) {
-	if (days) {
-		var date = new Date();
-		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
 }
 function getCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i];
-		while (c.charAt(0)==' ') c = c.substring(1,c.length);
-		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-	}
-	return null;
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
 }
 
 /* Zebra_DatePicker: a lightweight jQuery date picker plugin | copyright (c) 2011 - 2013 Stefan Gabos http://stefangabos.ro/jquery/zebra-datepicker/ */

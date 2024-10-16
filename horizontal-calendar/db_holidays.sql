@@ -30,11 +30,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `holiday_countries` (
   `id` int(2) UNSIGNED NOT NULL,
-  `country` varchar(3) NOT NULL,
-  `region` varchar(80) NOT NULL,
-  `meta` varchar(200) NOT NULL,
-  `datasource` varchar(200) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `country` varchar(3) COLLATE utf8mb4_polish_ci NOT NULL,
+  `region` varchar(80) COLLATE utf8mb4_polish_ci NOT NULL,
+  `meta` varchar(200) COLLATE utf8mb4_polish_ci NOT NULL,
+  `datasource` varchar(200) COLLATE utf8mb4_polish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 -- --------------------------------------------------------
 
@@ -46,8 +46,8 @@ CREATE TABLE `holiday_periods` (
   `id` int(2) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'regionid',
   `startdate` date NOT NULL,
   `enddate` date NOT NULL,
-  `meta` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `meta` varchar(100) COLLATE utf8mb4_polish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
 -- Indexes for dumped tables

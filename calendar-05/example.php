@@ -5,7 +5,7 @@
  * File Created: 2024-06-15, 21:26:38
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-06-15, 22:48:01
+ * Last Modified: 2024-10-16, 20:59:43
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -17,8 +17,16 @@ require_once __DIR__ . '/Template.php';
 
 $templateDir = __DIR__ . '/templates';
 $template = new Template($templateDir);
-$calendar = new MonthlyCalendar();
-$renderer = new MonthlyTemplateRenderer($template);
+
+// $calendar = new MonthlyCalendar();
+// $renderer = new MonthlyTemplateRenderer($template);
+
+// $calendar = new WeeklyCalendar();
+// $renderer = new WeeklyTemplateRenderer($template);
+
+$calendar = new YearlyCalendar();
+$renderer = new YearlyTemplateRenderer($template);
+
 $calendarView = new CalendarView($calendar, $renderer);
 ?>
 <!DOCTYPE html>

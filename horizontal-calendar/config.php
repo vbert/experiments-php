@@ -1,6 +1,5 @@
 <?php
-    define('DB_HOST', 'localhost');
-    define('DB_USER', 'user_database'); 
-    define('DB_PASS', 'passwordhere'); 
-    define('DB_NAME', 'db_holidays'); 
-?>
+define('DB_HOST', 'localhost');
+define('DB_USER', 'test'); 
+define('DB_PASS', 'Test!2024'); 
+define('DB_NAME', 'test'); 
