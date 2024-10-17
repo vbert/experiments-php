@@ -19,7 +19,9 @@ Copyright © 2021 - 2024 by vbert
         <div class="calendar-row">
             <?php foreach ($week as $date): ?>
                 <div class="calendar-cell <?= $date->format('m') != $month ? 'other-month' : '' ?>">
-                    <a href="?year=<?= $date->format('Y') ?>&month=<?= $date->format('m') ?>&day=<?= $date->format('d') ?>" class="day-number"><?= $date->format('j') ?></a>
+                    <a class="day-number" href="?year=<?= $date->format('Y') ?>&month=<?= $date->format('m') ?>&day=<?= $date->format('d') ?>">
+                        <?= $date->format('j') ?>
+                    </a>
                 </div>
             <?php endforeach; ?>
         </div>

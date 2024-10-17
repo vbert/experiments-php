@@ -5,7 +5,7 @@
  * File Created: 2024-06-15, 21:26:38
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-16, 20:59:43
+ * Last Modified: 2024-10-17, 15:15:23
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -15,17 +15,27 @@ require_once __DIR__ . '/Renderer.php';
 require_once __DIR__ . '/Calendar.php';
 require_once __DIR__ . '/Template.php';
 
+use vbert\experiments\calendar05\CalendarConstans;
+use \vbert\experiments\calendar05\MonthlyCalendar;
+use \vbert\experiments\calendar05\MonthlyTemplateRenderer;
+use \vbert\experiments\calendar05\CalendarView;
+use \vbert\experiments\calendar05\Template;
+
 $templateDir = __DIR__ . '/templates';
 $template = new Template($templateDir);
 
-// $calendar = new MonthlyCalendar();
-// $renderer = new MonthlyTemplateRenderer($template);
+$calendar = new MonthlyCalendar();
+$renderer = new MonthlyTemplateRenderer($template);
 
 // $calendar = new WeeklyCalendar();
 // $renderer = new WeeklyTemplateRenderer($template);
 
-$calendar = new YearlyCalendar();
-$renderer = new YearlyTemplateRenderer($template);
+// $calendar = new YearlyCalendar();
+// $renderer = new YearlyTemplateRenderer($template);
+
+$year = date('Y'); // 2024;
+$month = date('m'); // 6;
+$day = date('d'); // 15;
 
 $calendarView = new CalendarView($calendar, $renderer);
 ?>
@@ -39,13 +49,12 @@ $calendarView = new CalendarView($calendar, $renderer);
     <body>
         <nav class="navtop">
             <div>
-                <h1>Event Calendar</h1>
+                <h1 class="title">Event Calendar</h1>
             </div>
         </nav>
         <div class="content home">
-            <?php
-                echo $calendarView->render(2024, 6);
-            ?>
+            <h2 class="subtitle"><?= CalendarConstans::monthName($month, CalendarConstans::NAME_FULL) ?> <?= $year ?></h2>
+            <?= $calendarView->render($year, $month); ?>
         </div>
     </body>
 </html>

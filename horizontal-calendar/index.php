@@ -138,22 +138,23 @@ function getAllHolidays($countryCode) {
         $output .= '<th'.$cssToday.'>'.ltrim( substr($day,8,2) , '0').'</th>'; // alternative: output $day and let JS convert the day to weekday
     }
     $regionTerm = ($countryCode=='ch') ? 'Kantone' : 'Bundesländer';
-    $output .= '
-</tr>
+    $output .= '</tr>
 <tr class="weekdays"><td><span style="display:none;">'.$regionTerm.'</span></td>';
-    $wdaysMonth = array();
+    $wdaysMonth = [];
     // week days
     $i = 1;
 
     foreach($dates as $day) {
         // echo '<td>'.date('D', strtotime($day)).'</td>';
+        $weekdayNumber = date('N', strtotime($day));
         $weekdayName = strftime('%a', strtotime($day));
         $wkendcss = '';
         $todayWDcss = '';
 
         if ($day == $today) {
             $todayWDcss = 'class="activeday"';
-        } else if($weekdayName=='So'){
+        // } else if($weekdayName=='So'){
+        } else if((int) $weekdayNumber === 7){
             $wkendcss = 'class="wkend"';
         }
         // write day date in array field
@@ -314,11 +315,11 @@ $mnthyear = strftime('%b %Y', $curMonthTS);
             <a <?php echo (substr($requYMD,0,7)==$monthOut[$c_out][0])? 'class="oranged" ' : '' ?>href="?m=<?php echo $monthOut[$c_out][0]; ?>"><?php echo $monthOut[$c_out++][1]; ?></a> 
             <a <?php echo (substr($requYMD,0,7)==$monthOut[$c_out][0])? 'class="oranged" ' : '' ?>href="?m=<?php echo $monthOut[$c_out][0]; ?>"><?php echo $monthOut[$c_out++][1]; ?></a> 
             <a class="navfwd" title="next month" href="?m=<?php echo date('Y-m', strtotime($requYMD.' +1 month')); ?>">&raquo;</a> 
-            <a id="datepickbtn">Calender <input id="datepicker" name="request" type="text" value="<?php echo substr($requYMD,0,7); ?>" /></a>
+            <a id="datepickbtn">Kalendarz <input id="datepicker" name="request" type="text" value="<?php echo substr($requYMD,0,7); ?>" /></a>
         </div>
         <br />
         <div id="flags">
-            <span style="padding-right:10px;">Anzeigen:</span>
+            <span style="padding-right:10px;">Pokaż:</span>
             <div title="Deutschland" id="setDE" class="germany"></div> 
             <div title="Österreich" id="setAT" class="austria"></div> 
             <div title="Schweiz" id="setCH" class="swiss1"><div class="swiss2"></div></div> 

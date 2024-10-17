@@ -3,7 +3,7 @@ $(document).ready(function() {
     // $("table .wkend").parent('tr').nextAll().addBack().find('td').addClass('bordrleft');
     $('.wkend').each( function() {
         var $tr = $(this).parent();
-        var col = $tr.children().index($(this))+1;
+        var col = $tr.children().index($(this)) + 1;
         // mark cell above
         $tr.prev().children().eq(col).addClass('bordrleft');
         // mark cell itsefl
@@ -28,7 +28,8 @@ $(document).ready(function() {
 
     // mark sa and so in head
     $('.bordered td').each( function() {
-        if( $(this).text() == 'Sa' || $(this).text() == 'So' ) {
+        // if( $(this).text() == 'Sa' || $(this).text() == 'So' ) {
+        if( $(this).text() == 'sob' || $(this).text() == 'nie' ) {
             $(this).addClass('saso-mark');
         }
     });
@@ -43,7 +44,8 @@ $(document).ready(function() {
         direction: ['2013-01', '2032-12'],
         format: 'Y-m',
         lang_clear_date: '', 
-        months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+        // months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+        months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
         offset: [20,250], 
         onSelect: function(view, elements) {
            window.location.href = '/experiments-php/horizontal-calendar/index.php?m='+view;
@@ -245,7 +247,7 @@ function calcBinFlag() {
     var fl_de = $('.t_de').is(':visible') ? 0 : 1;
     var fl_ch = $('.t_ch').is(':visible') ? 0 : 2;
     var fl_at = $('.t_at').is(':visible') ? 0 : 4;
-    var fl_at = $('.t_pl').is(':visible') ? 0 : 8;
+    var fl_pl = $('.t_pl').is(':visible') ? 0 : 8;
     //console.log(fl_de+" & "+fl_ch+" & "+fl_at);
     //console.log(fl_de | fl_ch | fl_at);
     return (fl_de|fl_ch|fl_at|fl_pl);

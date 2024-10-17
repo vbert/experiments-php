@@ -5,11 +5,12 @@
  * File Created: 2024-06-15, 21:25:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-06-15, 21:25:57
+ * Last Modified: 2024-10-17, 14:41:45
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
  */
+namespace vbert\experiments\calendar05;
 
 interface CalendarRendererInterface {
     public function render(CalendarInterface $calendar, $year = null, $month = null, $day = null);
@@ -23,7 +24,7 @@ class MonthlyTemplateRenderer implements CalendarRendererInterface {
     }
 
     public function render(CalendarInterface $calendar, $year = null, $month = null, $day = null) {
-        $data = $calendar->generate($year, $month, $day);
+        $data = $calendar->generate();
         return $this->template->render('monthly', ['data' => $data, 'year' => $year, 'month' => $month]);
     }
 }
@@ -36,7 +37,7 @@ class WeeklyTemplateRenderer implements CalendarRendererInterface {
     }
 
     public function render(CalendarInterface $calendar, $year = null, $month = null, $day = null) {
-        $data = $calendar->generate($year, $month, $day);
+        $data = $calendar->generate();
         return $this->template->render('weekly', ['data' => $data, 'year' => $year, 'month' => $month, 'day' => $day]);
     }
 }
@@ -49,7 +50,7 @@ class YearlyTemplateRenderer implements CalendarRendererInterface {
     }
 
     public function render(CalendarInterface $calendar, $year = null, $month = null, $day = null) {
-        $data = $calendar->generate($year, $month, $day);
+        $data = $calendar->generate();
         return $this->template->render('yearly', ['data' => $data, 'year' => $year]);
     }
 }
