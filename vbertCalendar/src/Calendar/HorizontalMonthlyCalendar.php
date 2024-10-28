@@ -5,7 +5,7 @@
  * File Created: 2024-10-28, 10:19:31
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-28, 14:05:41
+ * Last Modified: 2024-10-28, 15:21:16
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -22,13 +22,13 @@ class HorizontalMonthlyCalendar implements CalendarInterface {
         $this->constans = $constans;
     }
 
-
     public function generate() {
         // TODO: Implement generate() method.
 
         var_dump([
             'constans' => $this->constans,
-            'NAME_SHORT' => $this->constans::NAME_SHORT
+            'NAME_SHORT' => $this->constans::NAME_SHORT,
+            'Monday' => $this->constans::dayName($this->constans::DAY_MONDAY, $this->constans::NAME_FULL),
         ]);
 
     }

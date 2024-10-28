@@ -86,6 +86,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     } else {
         $tArray[$row['id']] .= ','.$row['startdate'].','.$row['enddate'].','.$row['meta'];
     }
+
+    
+    var_dump([
+        'id' => $row['id'],
+        'tArray' => $tArray[$row['id']]
+    ]);
+    
 }
 
 // extra query for regions with holidays over 2 months, e.g. 31.07.2014 - 10.09.2014
@@ -103,6 +110,11 @@ $resultXX = mysqli_query($db, $sqlXX);
 while($row = mysqli_fetch_assoc($resultXX)) {
     // set holiday of region to full month setting first to end of month
     $tArray[$row['id']] = $requYMD .','. substr($requYMD,0,8).$num_of_days .','. $row['meta'];
+
+    var_dump([
+        'id' => $row['id'],
+        'tArray' => $tArray[$row['id']]
+    ]);
 }
 
 /* OUTPUT function */
@@ -150,6 +162,12 @@ function getAllHolidays($countryCode) {
         $weekdayName = strftime('%a', strtotime($day));
         $wkendcss = '';
         $todayWDcss = '';
+
+var_dump([
+    '$day' => $day,
+    '$weekdayNumber' => $weekdayNumber,
+    '$weekdayName' => $weekdayName
+]);
 
         if ($day == $today) {
             $todayWDcss = 'class="activeday"';
