@@ -5,7 +5,7 @@
  * File Created: 2024-06-15, 21:26:38
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-17, 15:15:23
+ * Last Modified: 2024-10-28, 9:36:36
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -26,6 +26,10 @@ $template = new Template($templateDir);
 
 $calendar = new MonthlyCalendar();
 $renderer = new MonthlyTemplateRenderer($template);
+
+var_dump([
+    'calendar' => $calendar,
+]);
 
 // $calendar = new WeeklyCalendar();
 // $renderer = new WeeklyTemplateRenderer($template);

@@ -5,7 +5,7 @@
  * File Created: 2024-06-14, 11:40:15
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-17, 13:20:50
+ * Last Modified: 2024-10-28, 9:30:53
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -67,7 +67,7 @@ echo "First day of this week: ", $firstday;
         <div class="content home">
             <?php
                 echo $calendar;
-                //var_dump($calendar->getArrayMonth());
+                var_dump($calendar->getArrayMonth());
             ?>
         </div>
     </body>
