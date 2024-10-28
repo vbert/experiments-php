@@ -16,6 +16,7 @@ __pycache__
 .idea/*
 .vscode/*
 php_errors.log
+composer.lock
 vendor/
 nbproject/
 *.tmlanguage.cache
