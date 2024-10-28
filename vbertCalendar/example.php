@@ -5,7 +5,7 @@
  * File Created: 2024-10-28, 10:25:02
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-28, 14:07:27
+ * Last Modified: 2024-10-28, 23:08:21
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -41,6 +41,7 @@ $calendar = new HorizontalMonthlyCalendar(new CalendarLangPL());
             <h2 class="subtitle"></h2>
 
             <?php $calendar->generate(); ?>
+            <?php var_dump($calendar->calculatePeriod()); ?>
         </div>
     </body>
 </html>

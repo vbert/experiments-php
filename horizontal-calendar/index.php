@@ -26,7 +26,7 @@ $startpage = true;
 $requestedMonth = filter_input(INPUT_GET, 'm', FILTER_SANITIZE_NUMBER_INT);
 
 if ($requestedMonth) {
-    $requYMD = preg_replace("/[^0-9\-]/i", '', $requestedMonth).'-01';
+    $requYMD = preg_replace("/[^0-9\-]/i", '', $requestedMonth) .'-01';
     $startpage = false;
 }
 
@@ -39,6 +39,12 @@ if (strlen($requYMD) != 10) {
 $curMonthTS = strtotime($requYMD); // add 4 hours 
 $monthNr = date('n', $curMonthTS); // numeric representation of current month, without leading zeros
 // echo strftime('%s %H:%M:%S %z %Z %a., %d. %B %Y', $curMonthTS);
+
+var_dump([
+    'requYMD' => $requYMD,
+    'curMonthTS' => $curMonthTS,
+    'monthNr' => $monthNr
+]);
 
 // http://stackoverflow.com/questions/13346395/php-array-containing-all-dates-of-the-current-month
 // number of days in the given month
@@ -86,13 +92,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     } else {
         $tArray[$row['id']] .= ','.$row['startdate'].','.$row['enddate'].','.$row['meta'];
     }
-
-    
-    var_dump([
-        'id' => $row['id'],
-        'tArray' => $tArray[$row['id']]
-    ]);
-    
 }
 
 // extra query for regions with holidays over 2 months, e.g. 31.07.2014 - 10.09.2014
@@ -162,12 +161,6 @@ function getAllHolidays($countryCode) {
         $weekdayName = strftime('%a', strtotime($day));
         $wkendcss = '';
         $todayWDcss = '';
-
-var_dump([
-    '$day' => $day,
-    '$weekdayNumber' => $weekdayNumber,
-    '$weekdayName' => $weekdayName
-]);
 
         if ($day == $today) {
             $todayWDcss = 'class="activeday"';
