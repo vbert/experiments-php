@@ -1,0 +1,72 @@
+/*
+ * Project: calendar-05
+ * File: /style.css
+ * File Created: 2024-06-15, 22:48:26
+ * Author: Wojciech Sobczak (wsobczak@gmail.com)
+ * -----
+ * Last Modified: 2024-10-17, 15:28:14
+ * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
+ * -----
+ * Copyright © 2021 - 2024 by vbert
+ */
+
+.title,
+.subtitle {
+    text-align: center;
+}
+
+.calendar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    border: 1px solid #ccc;
+}
+
+.calendar-month {
+    margin-bottom: 20px;
+}
+
+.calendar-header {
+    background-color: #deedff;
+    color: #222;
+}
+
+.calendar-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    text-align: left;
+    flex: 1;
+}
+
+.calendar-cell:nth-child(6),
+.calendar-cell:nth-child(7) {
+    background-color: rgba(255, 226, 226, 0.5); /* Highlight weekends */
+}
+
+.calendar-row {
+    display: flex;
+}
+
+.day-number {
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+}
+
+.other-month {
+    color: #999;
+    background-color: #f5f5f5;
+}
+
+.event {
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    color: #fff; /* Ensure text is readable on colored backgrounds */
+}
