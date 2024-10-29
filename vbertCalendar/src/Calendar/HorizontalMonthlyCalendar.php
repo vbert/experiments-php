@@ -5,7 +5,7 @@
  * File Created: 2024-10-28, 10:19:31
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-28, 23:14:05
+ * Last Modified: 2024-10-29, 8:57:31
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -47,6 +47,12 @@ class HorizontalMonthlyCalendar implements CalendarInterface {
             'lastDayOfMonth' => $lastDayOfMonth,
             'daysInMonth' => $daysInMonth,
             'period' => $period,
+            // [
+            //     'start' => $period->getStartDate(),
+            //     'end' => $period->getEndDate(),
+            //     'interval' => $period->getDateInterval(),
+            // ],
+
             'calendar' => $calendar
         ];
     }

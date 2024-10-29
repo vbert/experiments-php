@@ -40,12 +40,6 @@ $curMonthTS = strtotime($requYMD); // add 4 hours
 $monthNr = date('n', $curMonthTS); // numeric representation of current month, without leading zeros
 // echo strftime('%s %H:%M:%S %z %Z %a., %d. %B %Y', $curMonthTS);
 
-var_dump([
-    'requYMD' => $requYMD,
-    'curMonthTS' => $curMonthTS,
-    'monthNr' => $monthNr
-]);
-
 // http://stackoverflow.com/questions/13346395/php-array-containing-all-dates-of-the-current-month
 // number of days in the given month
 $num_of_days = date('t', $curMonthTS);

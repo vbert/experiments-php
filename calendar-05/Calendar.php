@@ -5,7 +5,7 @@
  * File Created: 2024-06-15, 21:20:55
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-17, 15:11:30
+ * Last Modified: 2024-10-29, 9:00:40
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -148,7 +148,25 @@ class MonthlyCalendar implements CalendarInterface {
         foreach ($period as $date) {
             $week = (int)$date->format('W');
             $calendar[$week][] = $date;
+            
+            var_dump([
+                'date' => $date,
+                'week' => $week,
+            ]);
+            
         }
+
+        var_dump([
+            'year' => $this->year,
+            'month' => $this->month,
+            'daysInMonth' => $daysInMonth,
+            'firstDayOfWeek' => $firstDayOfWeek,
+            'lastDayOfWeek' => $lastDayOfWeek,
+            'firstDayOfMonth' => $firstDayOfMonth,
+            'lastDayOfMonth' => $lastDayOfMonth,
+            'period' => $period,
+            'calendar' => $calendar,
+        ]);
 
         return $calendar;
     }
