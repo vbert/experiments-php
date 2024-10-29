@@ -1,0 +1,30 @@
+/*
+ * Project: chpt-Calendar
+ * File: /style.css
+ * File Created: 2024-10-29, 14:16:07
+ * Author: Wojciech Sobczak (wsobczak@gmail.com)
+ * -----
+ * Last Modified: 2024-10-29, 14:49:00
+ * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
+ * -----
+ * Copyright © 2021 - 2024 by vbert
+ */
+
+.table-events thead tr th,
+.table-events thead tr td {
+    background-color: #def;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    text-align: center;
+}
+
+.table-events thead tr th:first-child {
+    background-color: #ffd;
+}
+
+.table-events thead .weekend {
+    background-color: #fdd;
+}
+
+.table-events thead tr td {
+    font-size: .75rem;
+}
