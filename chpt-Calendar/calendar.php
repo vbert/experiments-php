@@ -5,7 +5,7 @@
  * File Created: 2024-10-29, 9:36:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-29, 14:53:44
+ * Last Modified: 2024-10-30, 15:26:38
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -30,6 +30,8 @@ class Skis implements GeneralObject {
     private string $description;
     private string $color;
     private array $events = [];
+    private string $generalUrlAddEvent;
+    private string $generalUrlEditEvent;
 
     public function __construct(int $id, string $name, string $description, string $color) {
         $this->id = $id;
@@ -54,12 +56,16 @@ class Skis implements GeneralObject {
         return $this->color;
     }
 
-    public function getUrlEditEvent(): string {
-        return "/edit_event.php?id=" . $this->id;
-    }
-
     public function getUrlAddEvent(): string {
         return "/add_event.php?id=" . $this->id;
+    }
+
+    public function setGeneralUrlEditEvent(string $url=''): void {
+        $this->generalUrlEditEvent = $url;
+    }
+
+    public function getUrlEditEvent(): string {
+        return "/edit_event.php?id=" . $this->id;
     }
 
     public function getEvents(): array {
@@ -162,17 +168,24 @@ class CalendarDay {
     private int $year;
     private int $month;
     private int $day;
+    private string $dateString;
     private string $dayName;
-    
+    private int $dayWeekNumber;
+    private int $dateTimestamp;
+
     public function __construct(int $year, int $month, int $day) {
         $this->year = $year;
         $this->month = $month;
         $this->day = $day;
-        $this->dayName = date('D', strtotime("$year-$month-$day"));
+
+        $this->dateString = "$year-$month-$day";
+        $this->dateTimestamp = strtotime($this->dateString);
+        $this->dayName = date('D', $this->dateTimestamp);
+        $this->dayWeekNumber = (int) date('N', $this->dateTimestamp);
     }
 
     public function getDate(): string {
-        return "{$this->year}-{$this->month}-{$this->day}";
+        return $this->dateString;
     }
 
     public function getDayName(): string {
@@ -180,7 +193,12 @@ class CalendarDay {
     }
 
     public function isWeekend(): bool {
-        return in_array($this->dayName, ['Sat', 'Sun']);
+        return in_array($this->dayWeekNumber, [6, 7]);
+    }
+
+    public function isToday(): bool {
+        $today = new DateTime();
+        return $today->format('Y-m-d') === $this->dateString;
     }
 }
 
@@ -188,10 +206,12 @@ class CalendarDay {
 class CalendarRenderer {
     private Calendar $calendar;
     private array $objects;
+    private string $objectsName;
 
-    public function __construct(Calendar $calendar, array $objects) {
+    public function __construct(Calendar $calendar, array $objects, string $objectsName=null) {
         $this->calendar = $calendar;
         $this->objects = $objects;
+        $this->objectsName = $objectsName ?: 'Objekty';
     }
 
     public function render(): string {
@@ -219,7 +239,7 @@ class CalendarRenderer {
         foreach ($this->calendar->getDays() as $day) {
             $dayNumber = (int)date('j', strtotime($day->getDate())); 
             $fullDate = $day->getDate();
-            $dayClass = $day->isWeekend() ? " class='weekend'" : "";
+            $dayClass = $this->calculateCssClass($day);
             $html .= "<th{$dayClass} data-day='{$fullDate}'>{$dayNumber}</th>";
         }
 
@@ -232,7 +252,7 @@ class CalendarRenderer {
 
         foreach ($this->calendar->getDays() as $day) {
             $dayName = $day->getDayName();
-            $dayClass = $day->isWeekend() ? " class='weekend'" : "";
+            $dayClass = $this->calculateCssClass($day);
             $html .= "<td{$dayClass}>{$dayName}</td>";
         }
 
@@ -246,6 +266,7 @@ class CalendarRenderer {
 
         for ($i = 0; $i < count($days); $i++) {
             $day = $days[$i];
+            $dayClass = $this->calculateCssClass($day);
             $event = $this->getEventForDay($object, $day);
 
             if ($event) {
@@ -253,15 +274,34 @@ class CalendarRenderer {
                 $color = $object->getColor();
                 $eventName = $this->getFormattedEventName($event, $day);
                 
-                $html .= "<td colspan='{$colspan}' style='background-color:{$color};'><a href='{$object->getUrlEditEvent()}'>{$eventName}</a></td>";
+                $html .= "<td{$dayClass} colspan='{$colspan}' style='background-color:{$color};'><a href='{$object->getUrlEditEvent()}'>{$eventName}</a></td>";
                 $i += $colspan - 1;
             } else {
-                $html .= "<td></td>";
+                $html .= "<td{$dayClass}></td>";
             }
         }
 
         $html .= "</tr>";
         return $html;
+    }
+
+    private function calculateCssClass($day): string {
+        $dayClass = '';
+        $cssClass = [];
+
+        if ($day->isWeekend()) {
+            $cssClass[] = 'weekend';
+        }
+
+        if ($day->isToday()) {
+            $cssClass[] = 'today';
+        }
+
+        if (count($cssClass) > 0) {
+            $dayClass = " class='". implode(' ', $cssClass) ."'";
+        }
+
+        return $dayClass;
     }
 
     private function getEventForDay(GeneralObject $object, CalendarDay $day): ?Event {
@@ -317,17 +357,16 @@ class CalendarRenderer {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horizontal Calendar</title>
     <!-- Bootstrap 5.3 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./bootstrap.min.css">
     <!-- Zebra_DatePicker CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/2.0.0/css/bootstrap/zebra_datepicker.min.css" integrity="sha512-T7fd/iXI/NUTH7dKF+ADcO/fKgC2Y2r6DE3pAPX7Yat968wE8s2v2+L3m2Y4MAYifaQOF/+ewUmOCF/Dr3x3NA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./zebra_datepicker.min.css">
     <!-- style.css -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body class="container">
 
-<div class="my-4">
+<div class="my-4 calendar-events">
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <span class="h5" id="currentDateDisplay"></span>
         <div>
             <button id="prevMonth" class="btn btn-secondary btn-sm me-2">Previous</button>
             <!-- Quick month selection buttons -->
@@ -340,6 +379,19 @@ class CalendarRenderer {
             <button id="nextMonth" class="btn btn-secondary btn-sm ms-2">Next</button>
             <!-- Calendar button for year and month selection -->
             <input type="text" id="datePicker" class="form-control d-inline-block" style="width: 130px;" placeholder="Select Date">
+        </div>
+        <div id="calendarHolder">
+            <div class="calendar-today">
+                <div class="calendar-today-month-day">
+                    <?=date('j'); ?>
+                </div>
+                <div class="calendar-today-month-year">
+                    <?=strftime('%b %Y', strtotime(date('Y-m-d'))); ?>
+                </div>
+            </div>
+            <div class="calendar-current-hour">
+                <div id="calendarCurrentHour"></div>
+            </div>
         </div>
     </div>
 
@@ -364,16 +416,14 @@ class CalendarRenderer {
     ?>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="./jquery-3.6.0.min.js"></script>
 <!-- Zebra_DatePicker JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Zebra_datepicker/2.0.0/zebra_datepicker.min.js" integrity="sha512-Qnfn6vHrOEl6m6mBMVxKUScok5y+Apdw+3tDNpdeEHlh7/uiZ7+H0VkxLlumrj9ePNcEOA/t5vV/3NgcF44QnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="./zebra_datepicker.min.js"></script>
 <script>
     let currentYear = <?php echo $calendar->getYear(); ?>;
     let currentMonth = <?php echo $calendar->getMonth(); ?>;
-    document.getElementById('currentDateDisplay').textContent = `${currentYear}-${currentMonth}`;
 
     function updateCalendarDisplay() {
-        document.getElementById('currentDateDisplay').textContent = `${currentYear}-${currentMonth}`;
         // Code to reload the calendar would go here
     }
 
@@ -412,6 +462,30 @@ class CalendarRenderer {
             updateCalendarDisplay();
         }
     });
+
+    function getCurrentTimeInWarsaw() {
+        // Get current time for zone Europe/Warsaw.
+        const now = new Date().toLocaleString("pl-PL", {
+            timeZone: "Europe/Warsaw",
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false // Format 24-hours
+        });
+        
+        return now;
+    }
+
+    function displayTime() {
+        const timeElement = document.getElementById("calendarCurrentHour");
+        timeElement.textContent = getCurrentTimeInWarsaw();
+    }
+
+    // Set interval that calll function displayTime every 1 second.
+    setInterval(displayTime, 1000);
+
+    // Start displayTime on page.
+    displayTime();
 </script>
 </body>
 </html>
