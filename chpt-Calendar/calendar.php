@@ -5,7 +5,7 @@
  * File Created: 2024-10-29, 9:36:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-30, 15:26:38
+ * Last Modified: 2024-10-31, 15:04:41
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -260,7 +260,7 @@ class CalendarRenderer {
         return $html;
     }
 
-    private function renderObjectRow(GeneralObject $object): string {
+    private function renderObjectRow_OLD(GeneralObject $object): string {
         $html = "<tr><td><a href='{$object->getUrlAddEvent()}'>{$object->getName()}</a></td>";
         $days = $this->calendar->getDays();
 
@@ -273,7 +273,7 @@ class CalendarRenderer {
                 $colspan = $this->calculateColspan($event, $i);
                 $color = $object->getColor();
                 $eventName = $this->getFormattedEventName($event, $day);
-                
+
                 $html .= "<td{$dayClass} colspan='{$colspan}' style='background-color:{$color};'><a href='{$object->getUrlEditEvent()}'>{$eventName}</a></td>";
                 $i += $colspan - 1;
             } else {
@@ -285,9 +285,127 @@ class CalendarRenderer {
         return $html;
     }
 
-    private function calculateCssClass($day): string {
+    private function renderObjectRow(GeneralObject $object): string
+    {
+        $html = "<tr><td><a href='{$object->getUrlAddEvent()}'>{$object->getName()}</a></td>";
+        $days = $this->calendar->getDays();
+    
+        for ($i = 0; $i < count($days); $i++) {
+            $day = $days[$i];
+            $event = $this->getEventForDay($object, $day);
+    
+            if ($event) {
+                $eventName = $this->getFormattedEventName($event, $day);
+                $urlEditEvent = $object->getUrlEditEvent();
+                $eventColor = $object->getColor();
+    
+                // Obliczenie indeksu końcowego wydarzenia w bieżącym miesiącu
+                $startDayIndex = $i;
+                $endDayIndex = $startDayIndex;
+                while ($endDayIndex + 1 < count($days) && $this->getEventForDay($object, $days[$endDayIndex + 1]) === $event) {
+                    $endDayIndex++;
+                }
+    
+                // Sprawdzenie, czy wydarzenie trwa z poprzedniego lub do następnego miesiąca
+                $isEventContinuedFromPreviousMonth = $event->getStartDate()->format('Y-m') < "{$this->calendar->getYear()}-{$this->calendar->getMonth()}";
+                $isEventContinuedToNextMonth = $event->getEndDate()->format('Y-m') > "{$this->calendar->getYear()}-{$this->calendar->getMonth()}";
+    
+                // Renderowanie wydarzenia dla każdego dnia w bieżącym miesiącu
+                for ($j = $startDayIndex; $j <= $endDayIndex; $j++) {
+                    $dayClass = '';
+    
+                    if ($j == $startDayIndex && $j == $endDayIndex) {
+                        // Wydarzenie jednodniowe
+                        $dayClass = 'rounded';
+                    } elseif ($j == $startDayIndex) {
+                        // Pierwszy dzień wydarzenia
+                        $dayClass = $isEventContinuedFromPreviousMonth ? '' : 'rounded-left';
+                    } elseif ($j == $endDayIndex) {
+                        // Ostatni dzień wydarzenia
+                        $dayClass = $isEventContinuedToNextMonth ? '' : 'rounded-right';
+                    }
+
+                    // $dayClass = $this->calculateCssClass($day);
+                    // Renderowanie pojedynczej komórki wydarzenia
+                    $html .= "<td>
+                                <a href='{$urlEditEvent}' class='event-bar {$dayClass}' data-event-name='{$eventName}' 
+                                   style='background-color: {$eventColor}; display: block; height: 60%;'>&nbsp;
+                                </a>
+                              </td>";
+                }
+    
+                // Przeskocz do ostatniego dnia wydarzenia
+                $i = $endDayIndex;
+            } else {
+                $dayClass = $this->calculateCssClass($day);
+                $html .= "<td{$dayClass}></td>";
+            }
+        }
+    
+        $html .= "</tr>";
+        return $html;
+    }
+
+
+
+    private function renderObjectRow_OLD_2(GeneralObject $object): string {
+        $html = "<tr><td><a href='{$object->getUrlAddEvent()}'>{$object->getName()}</a></td>";
+        $days = $this->calendar->getDays();
+
+        for ($i = 0; $i < count($days); $i++) {
+            $day = $days[$i];
+            $event = $this->getEventForDay($object, $day);
+
+            if ($event) {
+                $colspan = $this->calculateColspan($event, $i);
+                $eventName = $this->getFormattedEventName($event, $day);
+                $urlEditEvent = $object->getUrlEditEvent();
+                $cssClass = ['calendar-event'];
+
+                // Sprawdzenie, czy to początek, środek czy koniec wydarzenia
+                $isFirstDay = $i == $i;
+                $isLastDay = $i + $colspan - 1 == count($days) - 1;
+
+
+                if ($event->getName() === 'Rental 1') {
+                    var_dump([
+                        'event' => $event->getName(),
+                        'day' => $day->getDate(),
+                        'i' => $i,
+                        'ie' => $i + $colspan - 1,
+                        'colspan' => $colspan,
+                        'isFirstDay' => $isFirstDay,
+                        'isLastDay' => $isLastDay
+                    ]);
+                }
+
+
+                if ($isFirstDay) {
+                    array_push($cssClass, 'startBar');
+                }
+
+                if ($isLastDay) {
+                    array_push($cssClass, 'endBar');
+                }
+
+                $dayClass = $this->calculateCssClass($day, $cssClass);
+
+                // Generowanie HTML dla paska wydarzenia
+                // $html .= "<td{$dayClass} colspan='{$colspan}'
+                $html .= "<td{$dayClass}><a class='calendar-event-bar' href='{$urlEditEvent}' data-event-name='{$eventName}' style='background-color: {$object->getColor()};'>&nbsp;</a></td>";
+                $i += $colspan - 1;
+            } else {
+                $dayClass = $this->calculateCssClass($day);
+                $html .= "<td{$dayClass}></td>";
+            }
+        }
+
+        $html .= "</tr>";
+        return $html;
+    }
+
+    private function calculateCssClass($day, $cssClass = []): string {
         $dayClass = '';
-        $cssClass = [];
 
         if ($day->isWeekend()) {
             $cssClass[] = 'weekend';

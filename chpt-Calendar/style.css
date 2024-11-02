@@ -4,7 +4,7 @@
  * File Created: 2024-10-29, 14:16:07
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-30, 15:18:38
+ * Last Modified: 2024-10-31, 14:56:26
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -46,6 +46,56 @@
 .table-events tbody .weekend.today {
     background-color: rgba(221, 255, 221, .75);
 }
+
+.table-events .calendar-event {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+.table-events .calendar-event .calendar-event-bar {
+    display: inline-block;
+    width: 100%;
+    height: 40%;
+    max-height: 16px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+.table-events .calendar-event.start-bar {
+    text-align: right;
+}
+
+.table-events .calendar-event.start-bar .calendar-event-bar {
+    width: 90%;
+    border-radius: 8px 0 0 8px;
+}
+
+    /* Podstawowy styl dla paska wydarzenia */
+    .event-bar {
+        height: 60%;
+        display: block;
+    }
+
+    /* Styl dla jednodniowego wydarzenia - zaokrąglenie z obu stron */
+    .event-bar.rounded {
+        border-radius: 8px;
+    }
+
+    /* Styl dla pierwszego dnia wydarzenia - zaokrąglony lewy narożnik */
+    .event-bar.rounded-left {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    /* Styl dla ostatniego dnia wydarzenia - zaokrąglony prawy narożnik */
+    .event-bar.rounded-right {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+
+
 
 #calendarHolder {
     /* position: absolute; */
