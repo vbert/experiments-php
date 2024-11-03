@@ -5,7 +5,7 @@
  * File Created: 2024-10-29, 9:36:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-31, 15:04:41
+ * Last Modified: 2024-11-03, 15:14:29
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -82,7 +82,6 @@ class Skis implements GeneralObject {
     }
 }
 
-
 class Event {
     private string $name;
     private DateTime $startDate;
@@ -119,7 +118,6 @@ class Event {
         return $date >= $this->startDate && $date <= $this->endDate;
     }
 }
-
 
 class Calendar {
     private int $year;
@@ -162,7 +160,6 @@ class Calendar {
     }
 }
 
-
 // Klasa CalendarDay reprezentująca pojedynczy dzień w kalendarzu
 class CalendarDay {
     private int $year;
@@ -201,7 +198,6 @@ class CalendarDay {
         return $today->format('Y-m-d') === $this->dateString;
     }
 }
-
 
 class CalendarRenderer {
     private Calendar $calendar;
@@ -285,55 +281,65 @@ class CalendarRenderer {
         return $html;
     }
 
-    private function renderObjectRow(GeneralObject $object): string
-    {
+    private function renderObjectRow(GeneralObject $object): string {
         $html = "<tr><td><a href='{$object->getUrlAddEvent()}'>{$object->getName()}</a></td>";
         $days = $this->calendar->getDays();
     
         for ($i = 0; $i < count($days); $i++) {
             $day = $days[$i];
             $event = $this->getEventForDay($object, $day);
-    
+
             if ($event) {
                 $eventName = $this->getFormattedEventName($event, $day);
                 $urlEditEvent = $object->getUrlEditEvent();
                 $eventColor = $object->getColor();
-    
+
                 // Obliczenie indeksu końcowego wydarzenia w bieżącym miesiącu
                 $startDayIndex = $i;
                 $endDayIndex = $startDayIndex;
                 while ($endDayIndex + 1 < count($days) && $this->getEventForDay($object, $days[$endDayIndex + 1]) === $event) {
                     $endDayIndex++;
                 }
-    
+
                 // Sprawdzenie, czy wydarzenie trwa z poprzedniego lub do następnego miesiąca
-                $isEventContinuedFromPreviousMonth = $event->getStartDate()->format('Y-m') < "{$this->calendar->getYear()}-{$this->calendar->getMonth()}";
-                $isEventContinuedToNextMonth = $event->getEndDate()->format('Y-m') > "{$this->calendar->getYear()}-{$this->calendar->getMonth()}";
-    
+                $isEventContinuedFromPreviousMonth = $event->getStartDate()->format('Y-n') < "{$this->calendar->getYear()}-{$this->calendar->getMonth()}";
+                $isEventContinuedToNextMonth = $event->getEndDate()->format('Y-n') > "{$this->calendar->getYear()}-{$this->calendar->getMonth()}";
+
+var_dump([
+    'day' => $day->getDate(),
+    'event' => $event,
+    'start' => $event->getStartDate()->format('Y-n'),
+    'end' => $event->getEndDate()->format('Y-n'),
+    'current' => "{$this->calendar->getYear()}-{$this->calendar->getMonth()}",
+    'startDayIndex' => $startDayIndex,
+    'endDayIndex' => $endDayIndex,
+    'isEventContinuedFromPreviousMonth' => $isEventContinuedFromPreviousMonth,
+    'isEventContinuedToNextMonth' => $isEventContinuedToNextMonth
+]);
+
                 // Renderowanie wydarzenia dla każdego dnia w bieżącym miesiącu
                 for ($j = $startDayIndex; $j <= $endDayIndex; $j++) {
+                    $day = $days[$j];
                     $dayClass = '';
-    
+                    $cssClasses = ['calendar-event'];
+
                     if ($j == $startDayIndex && $j == $endDayIndex) {
                         // Wydarzenie jednodniowe
-                        $dayClass = 'rounded';
+                        $cssClasses[] = 'rounded';
                     } elseif ($j == $startDayIndex) {
                         // Pierwszy dzień wydarzenia
-                        $dayClass = $isEventContinuedFromPreviousMonth ? '' : 'rounded-left';
+                        $cssClasses[] = $isEventContinuedFromPreviousMonth ? '' : 'rounded-left';
                     } elseif ($j == $endDayIndex) {
                         // Ostatni dzień wydarzenia
-                        $dayClass = $isEventContinuedToNextMonth ? '' : 'rounded-right';
+                        $cssClasses[] = $isEventContinuedToNextMonth ? '' : 'rounded-right';
                     }
 
-                    // $dayClass = $this->calculateCssClass($day);
+                    $dayClass = $this->calculateCssClass($day, $cssClasses);
+
                     // Renderowanie pojedynczej komórki wydarzenia
-                    $html .= "<td>
-                                <a href='{$urlEditEvent}' class='event-bar {$dayClass}' data-event-name='{$eventName}' 
-                                   style='background-color: {$eventColor}; display: block; height: 60%;'>&nbsp;
-                                </a>
-                              </td>";
+                    $html .= "<td{$dayClass}><a href='{$urlEditEvent}' class='calendar-event-bar' data-event-name='{$eventName}' style='background-color: {$eventColor};'>&nbsp;</a></td>";
                 }
-    
+
                 // Przeskocz do ostatniego dnia wydarzenia
                 $i = $endDayIndex;
             } else {
@@ -341,7 +347,7 @@ class CalendarRenderer {
                 $html .= "<td{$dayClass}></td>";
             }
         }
-    
+
         $html .= "</tr>";
         return $html;
     }
@@ -467,6 +473,36 @@ class CalendarRenderer {
         return $eventName;
     }
 }
+
+// Set default values
+$requestedYear = filter_input(INPUT_GET, 'y', FILTER_SANITIZE_NUMBER_INT);
+$requestedMonth = filter_input(INPUT_GET, 'm', FILTER_SANITIZE_NUMBER_INT);
+
+$requestedYear = (int) $requestedYear ?: date('Y');
+$requestedMonth = (int) $requestedMonth ?: date('m');
+
+var_dump([
+    'requestedYear' => $requestedYear,
+    'requestedMonth' => $requestedMonth
+]);
+
+// Set up calendar and objects
+$calendar = new Calendar($requestedYear, $requestedMonth);
+$skis1 = new Skis(1, "Skis Red", "Red colored skis for professionals.", "#ff6666");
+$skis2 = new Skis(2, "Skis Blue", "Blue colored skis for beginners.", "#6666ff");
+
+$event1 = new Event("Rental 1", new DateTime("2024-10-05"), new DateTime("2024-10-07"));
+$event2 = new Event("Rental 1", new DateTime("2024-10-09"), new DateTime("2024-10-09"));
+$event3 = new Event("Rental 2", new DateTime("2024-10-15"), new DateTime("2024-10-18"));
+$event4 = new Event("Rental 3", new DateTime("2024-09-30"), new DateTime("2024-10-02"));
+$event5 = new Event("Rental 4", new DateTime("2024-10-30"), new DateTime("2024-11-02"));
+
+$skis1->addEvent($event1);
+$skis2->addEvent($event2);
+$skis1->addEvent($event3);
+$skis2->addEvent($event4);
+
+$renderer = new CalendarRenderer($calendar, [$skis1, $skis2]);
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -512,26 +548,7 @@ class CalendarRenderer {
             </div>
         </div>
     </div>
-
-    <?php
-    // Set up calendar and objects
-    $calendar = new Calendar(2024, 10);
-    $skis1 = new Skis(1, "Skis Red", "Red colored skis for professionals.", "#ff6666");
-    $skis2 = new Skis(2, "Skis Blue", "Blue colored skis for beginners.", "#6666ff");
-
-    $event1 = new Event("Rental 1", new DateTime("2024-10-05"), new DateTime("2024-10-07"));
-    $event2 = new Event("Rental 2", new DateTime("2024-10-15"), new DateTime("2024-10-18"));
-    $event3 = new Event("Rental 3", new DateTime("2024-09-30"), new DateTime("2024-10-02"));
-    $event4 = new Event("Rental 4", new DateTime("2024-10-30"), new DateTime("2024-11-02"));
-
-    $skis1->addEvent($event1);
-    $skis2->addEvent($event2);
-    $skis1->addEvent($event3);
-    $skis2->addEvent($event4);
-
-    $renderer = new CalendarRenderer($calendar, [$skis1, $skis2]);
-    echo $renderer->render();
-    ?>
+    <?=$renderer->render(); ?>
 </div>
 
 <script src="./jquery-3.6.0.min.js"></script>

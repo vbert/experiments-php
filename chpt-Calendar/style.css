@@ -4,11 +4,15 @@
  * File Created: 2024-10-29, 14:16:07
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-31, 14:56:26
+ * Last Modified: 2024-11-03, 15:02:16
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
  */
+
+.table-sm > :not(caption) > * > * {
+    padding: .425rem .325rem;
+}
 
 .table-events thead th,
 .table-events thead td {
@@ -50,53 +54,50 @@
 .table-events .calendar-event {
     padding-left: 0;
     padding-right: 0;
+    vertical-align: middle;
     text-align: center;
 }
 
 .table-events .calendar-event .calendar-event-bar {
     display: inline-block;
     width: 100%;
-    height: 40%;
-    max-height: 16px;
+    height: 20%;
+    max-height: 12px;
     text-decoration: none;
     vertical-align: middle;
 }
 
-.table-events .calendar-event.start-bar {
+.table-events .calendar-event.rounded-left {
     text-align: right;
 }
 
-.table-events .calendar-event.start-bar .calendar-event-bar {
+.table-events .calendar-event.rounded-left .calendar-event-bar {
     width: 90%;
-    border-radius: 8px 0 0 8px;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
-    /* Podstawowy styl dla paska wydarzenia */
-    .event-bar {
-        height: 60%;
-        display: block;
-    }
+.table-events .calendar-event.rounded-right {
+    text-align: left;
+}
 
-    /* Styl dla jednodniowego wydarzenia - zaokrąglenie z obu stron */
-    .event-bar.rounded {
-        border-radius: 8px;
-    }
+.table-events .calendar-event.rounded-right .calendar-event-bar {
+    width: 90%;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
 
-    /* Styl dla pierwszego dnia wydarzenia - zaokrąglony lewy narożnik */
-    .event-bar.rounded-left {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-    }
+.table-events .calendar-event.rounded {
+    text-align: center;
+}
 
-    /* Styl dla ostatniego dnia wydarzenia - zaokrąglony prawy narożnik */
-    .event-bar.rounded-right {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-    }
+.table-events .calendar-event.rounded .calendar-event-bar {
+    width: 90%;
+    max-width: 30px;
+    border-radius: 6px;
+}
 
-
-
-
+/* Calendar Holder */
 #calendarHolder {
     /* position: absolute; */
     top: -21px;
