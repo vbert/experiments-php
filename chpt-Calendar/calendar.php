@@ -5,7 +5,7 @@
  * File Created: 2024-10-29, 9:36:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-03, 15:14:29
+ * Last Modified: 2024-11-04, 15:24:27
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -212,6 +212,7 @@ class CalendarRenderer {
 
     public function render(): string {
         $html = '<div class="table-responsive">';
+        // $html .= '<table class="table table-sm table-striped table-hover table-bordered table-events">';
         $html .= '<table class="table table-sm table-striped table-hover table-bordered table-events">';
         $html .= '<thead>';
         $html .= $this->renderDayNumbers();
@@ -230,7 +231,7 @@ class CalendarRenderer {
     }
 
     private function renderDayNumbers(): string {
-        $html = '<tr><th class="monthdays" rowspan="2">Narty</th>';
+        $html = '<tr><th class="object-list" rowspan="2">Narty</th>';
 
         foreach ($this->calendar->getDays() as $day) {
             $dayNumber = (int)date('j', strtotime($day->getDate())); 
@@ -250,31 +251,6 @@ class CalendarRenderer {
             $dayName = $day->getDayName();
             $dayClass = $this->calculateCssClass($day);
             $html .= "<td{$dayClass}>{$dayName}</td>";
-        }
-
-        $html .= "</tr>";
-        return $html;
-    }
-
-    private function renderObjectRow_OLD(GeneralObject $object): string {
-        $html = "<tr><td><a href='{$object->getUrlAddEvent()}'>{$object->getName()}</a></td>";
-        $days = $this->calendar->getDays();
-
-        for ($i = 0; $i < count($days); $i++) {
-            $day = $days[$i];
-            $dayClass = $this->calculateCssClass($day);
-            $event = $this->getEventForDay($object, $day);
-
-            if ($event) {
-                $colspan = $this->calculateColspan($event, $i);
-                $color = $object->getColor();
-                $eventName = $this->getFormattedEventName($event, $day);
-
-                $html .= "<td{$dayClass} colspan='{$colspan}' style='background-color:{$color};'><a href='{$object->getUrlEditEvent()}'>{$eventName}</a></td>";
-                $i += $colspan - 1;
-            } else {
-                $html .= "<td{$dayClass}></td>";
-            }
         }
 
         $html .= "</tr>";
@@ -307,6 +283,7 @@ class CalendarRenderer {
 
 var_dump([
     'day' => $day->getDate(),
+    'days' => count($days),
     'event' => $event,
     'start' => $event->getStartDate()->format('Y-n'),
     'end' => $event->getEndDate()->format('Y-n'),
@@ -323,7 +300,11 @@ var_dump([
                     $dayClass = '';
                     $cssClasses = ['calendar-event'];
 
-                    if ($j == $startDayIndex && $j == $endDayIndex) {
+                    var_dump([
+                        'j' => $j
+                    ]);
+
+                    if ($j == $startDayIndex && $j == $endDayIndex && !$isEventContinuedFromPreviousMonth && !$isEventContinuedToNextMonth) {
                         // Wydarzenie jednodniowe
                         $cssClasses[] = 'rounded';
                     } elseif ($j == $startDayIndex) {
@@ -354,7 +335,7 @@ var_dump([
 
 
 
-    private function renderObjectRow_OLD_2(GeneralObject $object): string {
+    private function renderObjectRow_OLD(GeneralObject $object): string {
         $html = "<tr><td><a href='{$object->getUrlAddEvent()}'>{$object->getName()}</a></td>";
         $days = $this->calendar->getDays();
 
@@ -488,19 +469,20 @@ var_dump([
 
 // Set up calendar and objects
 $calendar = new Calendar($requestedYear, $requestedMonth);
-$skis1 = new Skis(1, "Skis Red", "Red colored skis for professionals.", "#ff6666");
+$skis1 = new Skis(1, "Skis Red<br><small>To są czerwone narty dla Pana Starosty</small>", "Red colored skis for professionals.", "#ff6666");
 $skis2 = new Skis(2, "Skis Blue", "Blue colored skis for beginners.", "#6666ff");
 
 $event1 = new Event("Rental 1", new DateTime("2024-10-05"), new DateTime("2024-10-07"));
 $event2 = new Event("Rental 1", new DateTime("2024-10-09"), new DateTime("2024-10-09"));
 $event3 = new Event("Rental 2", new DateTime("2024-10-15"), new DateTime("2024-10-18"));
-$event4 = new Event("Rental 3", new DateTime("2024-09-30"), new DateTime("2024-10-02"));
-$event5 = new Event("Rental 4", new DateTime("2024-10-30"), new DateTime("2024-11-02"));
+$event4 = new Event("Rental 3", new DateTime("2024-10-29"), new DateTime("2024-11-01"));
+$event5 = new Event("Rental 4", new DateTime("2024-10-31"), new DateTime("2024-11-01"));
 
-$skis1->addEvent($event1);
-$skis2->addEvent($event2);
-$skis1->addEvent($event3);
-$skis2->addEvent($event4);
+// $skis1->addEvent($event1);
+// $skis2->addEvent($event2);
+// $skis1->addEvent($event3);
+// $skis1->addEvent($event4);
+$skis2->addEvent($event5);
 
 $renderer = new CalendarRenderer($calendar, [$skis1, $skis2]);
 ?>
@@ -517,7 +499,7 @@ $renderer = new CalendarRenderer($calendar, [$skis1, $skis2]);
     <!-- style.css -->
     <link rel="stylesheet" href="./style.css">
 </head>
-<body class="container">
+<body class="container-fluid">
 
 <div class="my-4 calendar-events">
     <div class="d-flex align-items-center justify-content-between mb-3">

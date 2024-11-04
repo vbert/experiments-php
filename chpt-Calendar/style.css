@@ -4,7 +4,7 @@
  * File Created: 2024-10-29, 14:16:07
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-03, 15:02:16
+ * Last Modified: 2024-11-04, 12:54:08
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -12,6 +12,22 @@
 
 .table-sm > :not(caption) > * > * {
     padding: .425rem .325rem;
+}
+
+.table-events {
+    table-layout: fixed;
+    width: max(65rem, 100%);
+}
+
+.table-events th:first-of-type,
+.table-events td:first-of-type {
+    min-width: 12rem;
+    width: 12rem;
+}
+
+.table-events th:not(:first-child),
+.table-events td:not(:first-child) {
+    min-width: 30px;
 }
 
 .table-events thead th,
@@ -34,7 +50,14 @@
     background-color: #dfd;
 }
 
-.table-events thead tr th:first-child {
+.table-events thead th:first-child,
+.table-events tbody td:first-child {
+    position: sticky;
+    inset-inline-start: 0;
+    /* border-inline-end: none; */
+}
+
+.table-events thead th:first-child {
     background-color: #ffd;
 }
 
