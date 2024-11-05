@@ -1,18 +1,18 @@
 <?php
 /*
  * Project: Vbert\VbertCalendar/Constans
- * File: /CalendarConstansInterface.php
+ * File: /CalendarLangInterface.php
  * File Created: 2024-10-28, 9:47:13
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-28, 14:05:41
+ * Last Modified: 2024-11-05, 23:14:52
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
  */
 namespace Vbert\VbertCalendar\Constans;
 
-interface CalendarConstansInterface {
+interface CalendarLangInterface {
     const DAY_MONDAY = 1;
     const DAY_TUESDAY = 2;
     const DAY_WEDNESDAY = 3;

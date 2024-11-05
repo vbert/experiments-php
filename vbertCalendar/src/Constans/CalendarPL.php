@@ -1,20 +1,20 @@
 <?php
 /*
  * Project: Vbert\VbertCalendar/Constans
- * File: /CalendarLangPL.php
+ * File: /CalendarPL.php
  * File Created: 2024-10-28, 10:05:27
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-28, 14:05:41
+ * Last Modified: 2024-11-05, 23:16:15
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
  */
 namespace Vbert\VbertCalendar\Constans;
 
-use Vbert\VbertCalendar\Constans\CalendarConstansInterface;
+use Vbert\VbertCalendar\Constans\CalendarLangInterface;
 
-class CalendarLangPL implements CalendarConstansInterface {
+class CalendarPL implements CalendarLangInterface {
 
     static $daysNames = [
         self::NAME_FULL => [

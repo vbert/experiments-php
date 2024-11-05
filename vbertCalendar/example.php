@@ -5,7 +5,7 @@
  * File Created: 2024-10-28, 10:25:02
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-10-28, 23:08:21
+ * Last Modified: 2024-11-05, 23:37:28
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -19,10 +19,10 @@ date_default_timezone_set('Europe/Warsaw');
 
 require 'vendor/autoload.php';
 
-use Vbert\VbertCalendar\Constans\CalendarLangPL;
+use Vbert\VbertCalendar\Constans\CalendarPL;
 use Vbert\VbertCalendar\Calendar\HorizontalMonthlyCalendar;
 
-$calendar = new HorizontalMonthlyCalendar(new CalendarLangPL());
+$calendar = new HorizontalMonthlyCalendar(new CalendarPL(), '2024-5');
 ?>
 <!DOCTYPE html>
 <html>
