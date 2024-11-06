@@ -5,7 +5,7 @@
  * File Created: 2024-10-29, 9:36:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-05, 12:07:18
+ * Last Modified: 2024-11-06, 15:38:45
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -464,10 +464,10 @@ $requestedMonth = filter_input(INPUT_GET, 'm', FILTER_SANITIZE_NUMBER_INT);
 $requestedYear = (int) $requestedYear ?: date('Y');
 $requestedMonth = (int) $requestedMonth ?: date('m');
 
-var_dump([
-    'requestedYear' => $requestedYear,
-    'requestedMonth' => $requestedMonth
-]);
+// var_dump([
+//     'requestedYear' => $requestedYear,
+//     'requestedMonth' => $requestedMonth
+// ]);
 
 // Set up calendar and objects
 $calendar = new Calendar($requestedYear, $requestedMonth);
@@ -487,7 +487,7 @@ $skis1->addEvent($event3);
 $skis1->addEvent($event4);
 $skis3->addEvent($event2);
 
-$renderer = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
+$renderedCalendar = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -504,20 +504,32 @@ $renderer = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
 </head>
 <body class="container-fluid">
 
-<div class="my-4 calendar-events">
-    <div class="d-flex align-items-center justify-content-between mb-3">
-        <div>
-            <button id="prevMonth" class="btn btn-secondary btn-sm me-2">Previous</button>
-            <!-- Quick month selection buttons -->
-            <button data-month="1" class="btn btn-outline-secondary btn-sm month-select">Jan</button>
-            <button data-month="2" class="btn btn-outline-secondary btn-sm month-select">Feb</button>
-            <button data-month="3" class="btn btn-outline-secondary btn-sm month-select">Mar</button>
-            <button data-month="4" class="btn btn-outline-secondary btn-sm month-select">Apr</button>
-            <button data-month="5" class="btn btn-outline-secondary btn-sm month-select">May</button>
-            <button data-month="6" class="btn btn-outline-secondary btn-sm month-select">Jun</button>
-            <button id="nextMonth" class="btn btn-secondary btn-sm ms-2">Next</button>
-            <!-- Calendar button for year and month selection -->
-            <input type="text" id="datePicker" class="form-control d-inline-block" style="width: 130px;" placeholder="Select Date">
+<div class="mb-4 calendar-events">
+    <div class="d-flex align-items-center justify-content-between mb-1">
+        <div id="calendarNav" class="calendar-nav d-flex align-items-center justify-content-between mb-1">
+            <div class="select-month">
+                <!-- Previous month -->
+                <a href="?y=2024&m=10" id="prevMonth" class="btn btn-secondary btn-sm me-2" title="Poprzedni"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16"><path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/></svg></a>
+                <!-- Quick month selection buttons -->
+                <a href="?y=2024&m=1" data-month="1" class="btn btn-outline-secondary btn-sm btn-month">Sty</a>
+                <a href="?y=2024&m=2" data-month="2" class="btn btn-outline-secondary btn-sm btn-month">Lut</a>
+                <a href="?y=2024&m=3" data-month="3" class="btn btn-outline-secondary btn-sm btn-month">Mar</a>
+                <a href="?y=2024&m=4" data-month="4" class="btn btn-outline-secondary btn-sm btn-month">Kwi</a>
+                <a href="?y=2024&m=5" data-month="5" class="btn btn-outline-secondary btn-sm btn-month">Maj</a>
+                <a href="?y=2024&m=6" data-month="6" class="btn btn-outline-secondary btn-sm btn-month">Cze</a>
+                <a href="?y=2024&m=7" data-month="7" class="btn btn-outline-secondary btn-sm btn-month">Lip</a>
+                <a href="?y=2024&m=8" data-month="8" class="btn btn-outline-secondary btn-sm btn-month">Sie</a>
+                <a href="?y=2024&m=9" data-month="9" class="btn btn-outline-secondary btn-sm btn-month">Wrz</a>
+                <a href="?y=2024&m=10" data-month="10" class="btn btn-outline-secondary btn-sm btn-month">Paź</a>
+                <a href="?y=2024&m=11" data-month="11" class="btn btn-outline-secondary btn-sm btn-month">Lis</a>
+                <a href="?y=2024&m=12" data-month="12" class="btn btn-outline-secondary btn-sm btn-month">Gru</a>
+                <!-- Next month -->
+                <a href="?y=2024&m=12" id="nextMonth" class="btn btn-secondary btn-sm ms-2" title="Następny"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16"><path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/></svg></a>
+            </div>
+            <div class="select-date">
+                <!-- Calendar button for year and month selection -->
+                <input type="text" id="datePicker" class="form-control d-inline-block" style="width: 150px;text-align:center;" placeholder="Wybierz datę" value="<?=$calendar->getYear();?>-<?=$calendar->getMonth();?>">
+            </div>
         </div>
         <div id="calendarHolder">
             <div class="calendar-today">
@@ -533,7 +545,7 @@ $renderer = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
             </div>
         </div>
     </div>
-    <?=$renderer->render(); ?>
+    <?=$renderedCalendar->render(); ?>
 </div>
 
 <script src="./jquery-3.6.0.min.js"></script>
@@ -542,9 +554,30 @@ $renderer = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
 <script>
     let currentYear = <?php echo $calendar->getYear(); ?>;
     let currentMonth = <?php echo $calendar->getMonth(); ?>;
+    const buttonsMonth = document.querySelectorAll('.btn-month');
 
-    function updateCalendarDisplay() {
-        // Code to reload the calendar would go here
+    for (let i = 0; i < buttonsMonth.length; i++) {
+        const button = buttonsMonth[i];
+
+        // console.log(currentMonth);
+
+        if (currentMonth === parseInt(button.getAttribute('data-month'))) {
+            button.classList.remove('btn-outline-secondary');
+            button.classList.add('btn-primary');
+        } else {
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-outline-secondary');
+        }
+
+        button.addEventListener('click', () => {
+            currentMonth = parseInt(button.getAttribute('data-month'));
+
+            updateCalendarDisplay(button);
+        });
+    }
+
+    function updateCalendarDisplay(button) {
+        // alert('Wybrano: ' + button.getAttribute('data-month'));
     }
 
     document.getElementById('prevMonth').addEventListener('click', () => {
@@ -567,11 +600,11 @@ $renderer = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
     });
 
     $('#datePicker').Zebra_DatePicker({
-        direction: ['2013-01', '2032-12'],
+        direction: ['2020-01', '2040-12'],
         format: 'Y-m',
         lang_clear_date: '', 
         months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
-        offset: [20,250], 
+        offset: [20, 250], 
         // onSelect: function(view, elements) {
         //    window.location.href = '/experiments-php/horizontal-calendar/index.php?m='+view;
         // },
@@ -580,6 +613,8 @@ $renderer = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
             currentYear = parseInt(year);
             currentMonth = parseInt(month);
             updateCalendarDisplay();
+
+            alert('Wybrano: ' + view);
         }
     });
 
@@ -592,7 +627,7 @@ $renderer = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
             second: "2-digit",
             hour12: false // Format 24-hours
         });
-        
+
         return now;
     }
 

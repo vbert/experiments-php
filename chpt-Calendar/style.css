@@ -4,11 +4,16 @@
  * File Created: 2024-10-29, 14:16:07
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-04, 12:54:08
+ * Last Modified: 2024-11-06, 15:11:15
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
  */
+
+.calendar-events .calendar-nav {
+    display: flex;
+    gap: 1rem;
+}
 
 .table-sm > :not(caption) > * > * {
     padding: .425rem .325rem;
