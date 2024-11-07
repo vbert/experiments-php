@@ -5,7 +5,7 @@
  * File Created: 2024-11-06, 23:06:44
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 15:22:36
+ * Last Modified: 2024-11-07, 22:00:49
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -19,7 +19,7 @@ use Vbert\VbCalendar\Calendar\CalendarDay;
 
 interface EventInterface {
     public function getEventId(): int;
-    public function getDescription(): string;
+    public function getDescription(): ?string;
     public function getMetadata(): array;
     public function setMetadata(array $metadata): void;
     public function getStartDate(): DateTime;

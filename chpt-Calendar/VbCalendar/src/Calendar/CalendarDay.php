@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 0:21:51
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 10:39:14
+ * Last Modified: 2024-11-07, 21:52:58
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -38,12 +38,12 @@ class CalendarDay {
         $this->day = $day;
         $this->lang = $lang;
 
-        $this->dateString = "$year-$month-$day";
+        $this->dateString = "{$year}-{$month}-{$day}";
         $this->dateTimestamp = strtotime($this->dateString);
         $this->dayWeekNumber = (int) date('N', $this->dateTimestamp);
 
         $this->dayName = $this->lang !== null 
-            ? $this->lang->getDayName($this->dayWeekNumber, $this->lang::NAME_SHORT) 
+            ? $this->lang::getDayName($this->dayWeekNumber, $this->lang::NAME_SHORT) 
             : date('D', $this->dateTimestamp);
     }
 

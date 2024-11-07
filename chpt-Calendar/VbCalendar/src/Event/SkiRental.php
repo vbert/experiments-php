@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 14:31:36
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 15:36:27
+ * Last Modified: 2024-11-07, 23:31:45
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -24,10 +24,11 @@ class SkiRental implements EventInterface {
     private array $metadata;
     private DateTime $startDate;
     private DateTime $endDate;
+    private DateTime $returnDate;
     private int $duration;
 
 
-    public function __construct(int $eventId, DateTime $startDate, DateTime $endDate, array $metadata) {
+    public function __construct(int $eventId, DateTime $startDate, DateTime $endDate, array $metadata=[]) {
         $this->eventId = $eventId;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
@@ -40,20 +41,12 @@ class SkiRental implements EventInterface {
         return $this->eventId;
     }
 
-    public function getObjectId(): int {
-
-        if (array_key_exists('objectId', $this->metadata)) {
-            return $this->metadata['objectId'];
-        }
-        return 0;
+    public function getObjectId(): ?int {
+        return $this->metadata['objectId'] ?? null;
     }
 
-    public function getClientId(): int {
-
-        if (array_key_exists('clientId', $this->metadata)) {
-            return $this->metadata['clientId'];
-        }
-        return 0;
+    public function getClientId(): ?int {
+        return $this->metadata['clientId'] ?? null;
     }
 
     public function getMetadata(): array {
@@ -80,24 +73,20 @@ class SkiRental implements EventInterface {
         $this->endDate = $endDate;
     }
 
+    public function getReturnDate(): DateTime {
+        return $this->returnDate;
+    }
+
+    public function setReturnDate(DateTime $returnDate): void {
+        $this->returnDate = $returnDate;
+    }
+
     public function getDuration(): int {
         return $this->duration;
     }
 
-    public function getDescription(): string {
-
-        if (array_key_exists('description', $this->metadata)) {
-            return $this->metadata['description'];
-        }
-        return '';
-    }
-
-    public function getColor(): string {
-
-        if (array_key_exists('color', $this->metadata)) {
-            return $this->metadata['color'];
-        }
-        return '';
+    public function getDescription(): ?string {
+        return $this->metadata['description'] ?? null;
     }
 
     public function occursOn(CalendarDay $day): bool {

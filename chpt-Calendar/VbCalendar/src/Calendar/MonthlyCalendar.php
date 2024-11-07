@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 13:28:34
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 13:45:41
+ * Last Modified: 2024-11-07, 23:13:09
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -45,8 +45,18 @@ class MonthlyCalendar implements CalendarInterface {
         return $this->year;
     }
 
+    public function setYear(int $year): void {
+        $this->year = $year;
+        $this->initializeDays();
+    }
+
     public function getMonth(): int {
         return $this->month;
+    }
+
+    public function setMonth(int $month): void {
+        $this->month = $month;
+        $this->initializeDays();
     }
 
     public function getDays(): array {
@@ -58,15 +68,5 @@ class MonthlyCalendar implements CalendarInterface {
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $this->days[] = new CalendarDay($this->year, $this->month, $day, $this->lang);
         }
-    }
-
-    public function setYear(int $year): void {
-        $this->year = $year;
-        $this->initializeDays();
-    }
-
-    public function setMonth(int $month): void {
-        $this->month = $month;
-        $this->initializeDays();
     }
 }
