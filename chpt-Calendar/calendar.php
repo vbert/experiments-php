@@ -5,7 +5,7 @@
  * File Created: 2024-10-29, 9:36:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-06, 15:38:45
+ * Last Modified: 2024-11-06, 23:57:52
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -177,8 +177,8 @@ class CalendarDay {
 
         $this->dateString = "$year-$month-$day";
         $this->dateTimestamp = strtotime($this->dateString);
-        $this->dayName = date('D', $this->dateTimestamp);
         $this->dayWeekNumber = (int) date('N', $this->dateTimestamp);
+        $this->dayName = date('D', $this->dateTimestamp);
     }
 
     public function getDate(): string {
