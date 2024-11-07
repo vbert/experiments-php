@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 0:21:51
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 1:05:12
+ * Last Modified: 2024-11-07, 10:39:14
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -30,9 +30,9 @@ class CalendarDay {
     private string $dayName;
     private int $dayWeekNumber;
     private int $dateTimestamp;
-    private CalendarLangInterface $lang;
+    private ?CalendarLangInterface $lang;
 
-    public function __construct(int $year, int $month, int $day, CalendarLangInterface $lang) {
+    public function __construct(int $year, int $month, int $day, CalendarLangInterface $lang=null) {
         $this->year = $year;
         $this->month = $month;
         $this->day = $day;
@@ -41,7 +41,10 @@ class CalendarDay {
         $this->dateString = "$year-$month-$day";
         $this->dateTimestamp = strtotime($this->dateString);
         $this->dayWeekNumber = (int) date('N', $this->dateTimestamp);
-        $this->dayName = $this->lang::dayName($this->dayWeekNumber, $lang::NAME_SHORT);
+
+        $this->dayName = $this->lang !== null 
+            ? $this->lang->getDayName($this->dayWeekNumber, $this->lang::NAME_SHORT) 
+            : date('D', $this->dateTimestamp);
     }
 
     public function getDate(): string {

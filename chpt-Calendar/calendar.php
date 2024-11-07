@@ -5,7 +5,7 @@
  * File Created: 2024-10-29, 9:36:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-06, 23:57:52
+ * Last Modified: 2024-11-07, 15:43:17
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -335,64 +335,6 @@ class CalendarRenderer {
         return $html;
     }
 
-
-
-    private function renderObjectRow_OLD(GeneralObject $object): string {
-        $html = "<tr><td><a href='{$object->getUrlAddEvent()}'>{$object->getName()}</a></td>";
-        $days = $this->calendar->getDays();
-
-        for ($i = 0; $i < count($days); $i++) {
-            $day = $days[$i];
-            $event = $this->getEventForDay($object, $day);
-
-            if ($event) {
-                $colspan = $this->calculateColspan($event, $i);
-                $eventName = $this->getFormattedEventName($event, $day);
-                $urlEditEvent = $object->getUrlEditEvent();
-                $cssClass = ['calendar-event'];
-
-                // Sprawdzenie, czy to początek, środek czy koniec wydarzenia
-                $isFirstDay = $i == $i;
-                $isLastDay = $i + $colspan - 1 == count($days) - 1;
-
-
-                if ($event->getName() === 'Rental 1') {
-                    var_dump([
-                        'event' => $event->getName(),
-                        'day' => $day->getDate(),
-                        'i' => $i,
-                        'ie' => $i + $colspan - 1,
-                        'colspan' => $colspan,
-                        'isFirstDay' => $isFirstDay,
-                        'isLastDay' => $isLastDay
-                    ]);
-                }
-
-
-                if ($isFirstDay) {
-                    array_push($cssClass, 'startBar');
-                }
-
-                if ($isLastDay) {
-                    array_push($cssClass, 'endBar');
-                }
-
-                $dayClass = $this->calculateCssClass($day, $cssClass);
-
-                // Generowanie HTML dla paska wydarzenia
-                // $html .= "<td{$dayClass} colspan='{$colspan}'
-                $html .= "<td{$dayClass}><a class='calendar-event-bar' href='{$urlEditEvent}' data-event-name='{$eventName}' style='background-color: {$object->getColor()};'>&nbsp;</a></td>";
-                $i += $colspan - 1;
-            } else {
-                $dayClass = $this->calculateCssClass($day);
-                $html .= "<td{$dayClass}></td>";
-            }
-        }
-
-        $html .= "</tr>";
-        return $html;
-    }
-
     private function calculateCssClass($day, $cssClass = []): string {
         $dayClass = '';
 
@@ -419,24 +361,6 @@ class CalendarRenderer {
             }
         }
         return null;
-    }
-
-    private function calculateColspan(Event $event, int $startIndex): int {
-        $startDate = $event->getStartDate();
-        $endDate = $event->getEndDate();
-        $colspan = 1;
-
-        for ($i = $startIndex + 1; $i < count($this->calendar->getDays()); $i++) {
-            $currentDay = $this->calendar->getDays()[$i];
-            $currentDate = new DateTime($currentDay->getDate());
-
-            if ($currentDate > $endDate) {
-                break;
-            }
-            $colspan++;
-        }
-
-        return $colspan;
     }
 
     private function getFormattedEventName(Event $event, CalendarDay $day): string {
@@ -475,9 +399,9 @@ $skis1 = new Skis(1, "Skis Red<br><small>To są czerwone narty dla Pana Starosty
 $skis2 = new Skis(2, "Skis Blue", "Blue colored skis for beginners.", "#6666ff");
 $skis3 = new Skis(3, "Skis Green", "Green colored skis for middle.", "#66ff66");
 
-$event1 = new Event("Rental 1", new DateTime("2024-10-05"), new DateTime("2024-10-07"));
+$event1 = new Event("Rental 1", new DateTime("2024-10-05"), new DateTime("2024-10-27"));
 $event2 = new Event("Rental 2", new DateTime("2024-10-09"), new DateTime("2024-10-09"));
-$event3 = new Event("Rental 3", new DateTime("2024-10-15"), new DateTime("2024-10-18"));
+$event3 = new Event("Rental 3", new DateTime("2024-10-27"), new DateTime("2024-11-10"));
 $event4 = new Event("Rental 4", new DateTime("2024-10-29"), new DateTime("2024-11-01"));
 $event5 = new Event("Rental 5", new DateTime("2024-10-31"), new DateTime("2024-11-01"));
 
@@ -600,7 +524,7 @@ $renderedCalendar = new CalendarRenderer($calendar, [$skis1, $skis2, $skis3]);
     });
 
     $('#datePicker').Zebra_DatePicker({
-        direction: ['2020-01', '2040-12'],
+        direction: ['2020-01', '2100-12'],
         format: 'Y-m',
         lang_clear_date: '', 
         months: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],

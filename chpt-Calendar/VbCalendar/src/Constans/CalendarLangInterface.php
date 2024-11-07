@@ -5,7 +5,7 @@
  * File Created: 2024-11-06, 23:49:56
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-06, 23:51:37
+ * Last Modified: 2024-11-07, 10:21:33
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -36,6 +36,6 @@ interface CalendarLangInterface {
     const NAME_SHORT = 'short';
     const NAME_FULL = 'full';
 
-    static function dayName($dayNumber, $nameVariant=self::NAME_SHORT);
-    static function monthName($monthNumber, $nameVariant=self::NAME_SHORT);
+    static function getDayName($dayNumber, $nameVariant=self::NAME_SHORT);
+    static function getMonthName($monthNumber, $nameVariant=self::NAME_SHORT);
 }
