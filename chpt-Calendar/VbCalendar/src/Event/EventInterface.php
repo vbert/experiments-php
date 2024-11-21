@@ -5,7 +5,7 @@
  * File Created: 2024-11-06, 23:06:44
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 22:00:49
+ * Last Modified: 2024-11-21, 22:04:01
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -23,8 +23,10 @@ interface EventInterface {
     public function getMetadata(): array;
     public function setMetadata(array $metadata): void;
     public function getStartDate(): DateTime;
-    public function getEndDate(): DateTime;
     public function setStartDate(DateTime $startDate): void;
+    public function getEndDate(): DateTime;
     public function setEndDate(DateTime $endDate): void;
+    public function getReturnDate(): DateTime;
+    public function setReturnDate (DateTime $returnDate): void;
     public function occursOn(CalendarDay $day): bool;
 }

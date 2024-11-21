@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 13:28:34
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 23:13:09
+ * Last Modified: 2024-11-21, 21:19:46
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -24,6 +24,7 @@ use Vbert\VbCalendar\Calendar\CalendarInterface;
 class MonthlyCalendar implements CalendarInterface {
     private int $year;
     private int $month;
+    private int $day;
     private array $days;
     private ?CalendarLangInterface $lang;
 
@@ -57,6 +58,14 @@ class MonthlyCalendar implements CalendarInterface {
     public function setMonth(int $month): void {
         $this->month = $month;
         $this->initializeDays();
+    }
+
+    public function getDay(): int {
+        return $this->day;
+    }
+
+    public function setDay(int $day): void {
+        $this->day = $day;
     }
 
     public function getDays(): array {

@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 14:31:36
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 23:31:45
+ * Last Modified: 2024-11-21, 21:11:25
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -34,7 +34,8 @@ class SkiRental implements EventInterface {
         $this->endDate = $endDate;
         $this->metadata = $metadata;
 
-        $this->calculateDuration();
+        $interval = $startDate->diff($endDate);
+        $this->duration = (int) $interval->format('%d');
     }
 
     public function getEventId(): int {
@@ -92,10 +93,5 @@ class SkiRental implements EventInterface {
     public function occursOn(CalendarDay $day): bool {
         $date = new DateTime($day->getDate());
         return $date >= $this->startDate && $date <= $this->endDate;
-    }
-
-    private function calculateDuration() {
-        $interval = $this->startDate->diff($this->endDate);
-        $this->duration = $interval->days;
     }
 }
