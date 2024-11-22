@@ -5,7 +5,7 @@
  * File Created: 2024-11-21, 21:29:51
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-21, 23:09:39
+ * Last Modified: 2024-11-22, 10:07:56
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -22,32 +22,25 @@ use Vbert\VbCalendar\EventObject\GeneralObjectInterface;
 class Ski implements GeneralObjectInterface {
     private int $id;
     private string $name;
+    private string $color;
     private array $metadata;
     private array $events = [];
 
-    // TODO: $color wrzucić do kalendarza podczas renderowania wiersza dla obiektu
-    // TODO: $arrayColors też gdzieś do kalendarza, opracować metodę, która zwróci kolor na podstawie id wiersza generowanej tabeli
-    private array $arrayColors = [
-        '#0d6efd',
-        '#6610f2',
-        '#6f42c1',
-        '#d63384',
-        '#dc3545',
-        '#fd7e14',
-        '#ffc107',
-        '#198754',
-        '#20c997',
-        '#0dcaf0',
-    ];
 
-    public function __construct(int $id, array $metadata) {
+    public function __construct(int $id, array $metadata, $color=null) {
         $this->id = $id;
         $this->metadata = $metadata;
         $this->name = $this->setName();
+
+        $this->color = $color ?? Color::get();
     }
 
     public function getId(): int {
         return $this->id;
+    }
+
+    public function getColor(): string {
+        return $this->color;
     }
 
     public function getName(): string {

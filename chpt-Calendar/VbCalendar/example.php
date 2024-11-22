@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 0:32:18
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-21, 22:58:08
+ * Last Modified: 2024-11-22, 10:09:59
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -21,6 +21,7 @@ use Vbert\VbCalendar\Constans\CalendarPL;
 use Vbert\VbCalendar\Calendar\CalendarDay;
 use Vbert\VbCalendar\Calendar\MonthlyCalendar;
 use Vbert\VbCalendar\Event\SkiRental;
+use Vbert\VbCalendar\EventObject\Color;
 use Vbert\VbCalendar\EventObject\Ski;
 
 // Set default values year and month.
@@ -48,6 +49,7 @@ $day = new CalendarDay($requestedYear, $requestedMonth, 14, $lang);
 
 // Set skis
 $skis = [];
+
 $skis[] = new Ski(1, [
     'mark' => 'Salomon',
     'model' => 'force X6',
@@ -55,7 +57,16 @@ $skis[] = new Ski(1, [
     'description' => 'Skis for professionals'
 ]);
 
+$skis[] = new Ski(2, [
+    'mark' => 'Salomon',
+    'model' => 'force X7',
+    'length' => 190,
+    'description' => 'Skis for professionals'
+]);
+
 $ski_0 = $skis[0];
+
+$color = new Color();
 
 var_dump([
     'lang' => $lang,
@@ -85,6 +96,6 @@ var_dump([
         'model' => $ski_0->getModel(),
         'length' => $ski_0->getLength(),
         'events' => $ski_0->getEvents(),
-    ],
+    ]
 ]);
 
