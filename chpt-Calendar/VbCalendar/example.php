@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 0:32:18
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-22, 10:09:59
+ * Last Modified: 2024-11-24, 22:44:59
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -19,7 +19,8 @@ require 'vendor/autoload.php';
 
 use Vbert\VbCalendar\Constans\CalendarPL;
 use Vbert\VbCalendar\Calendar\CalendarDay;
-use Vbert\VbCalendar\Calendar\MonthlyCalendar;
+use Vbert\VbCalendar\Calendar\MonthlyHorizontalCalendar;
+use Vbert\VbCalendar\Calendar\MonthlyHorizontalCalendarRenderer;
 use Vbert\VbCalendar\Event\SkiRental;
 use Vbert\VbCalendar\EventObject\Color;
 use Vbert\VbCalendar\EventObject\Ski;
@@ -29,18 +30,94 @@ $requestedYear = (int) filter_input(INPUT_GET, 'y', FILTER_SANITIZE_NUMBER_INT) 
 $requestedMonth = (int) filter_input(INPUT_GET, 'm', FILTER_SANITIZE_NUMBER_INT) ?: date('n');
 
 $lang = new CalendarPL();
-$calendar = new MonthlyCalendar($requestedYear, $requestedMonth, $lang);
+$calendar = new MonthlyHorizontalCalendar($requestedYear, $requestedMonth, $lang);
 
 // Set event -> ski rental
-$rental = new SkiRental(
-    1, 
-    new DateTime('2024-10-5'),
-    new DateTime('2024-10-26'),
+$rentals[] = new SkiRental(
+    1,
+    1,
+    67,
+    new DateTime('2024-11-5'),
+    new DateTime('2024-11-26'),
     [
-        'description' => 'Skis for beginners',
-        'objectId' => 123,
-        'clientId' => 67,
-        'color' => '#6666ff',
+        'description' => 'Skis for beginners'
+    ]
+);
+
+$rentals[] = new SkiRental(
+    2,
+    2,
+    247,
+    new DateTime('2024-10-28'),
+    new DateTime('2024-11-7'),
+    [
+        'description' => 'Skis for beginners'
+    ]
+);
+
+$rentals[] = new SkiRental(
+    3,
+    2,
+    35,
+    new DateTime('2024-11-28'),
+    new DateTime('2024-12-21'),
+    [
+        'description' => 'Skis for beginners'
+    ]
+);
+
+$rentals[] = new SkiRental(
+    4,
+    3,
+    67,
+    new DateTime('2024-11-1'),
+    new DateTime('2024-11-6'),
+    [
+        'description' => 'Skis for beginners'
+    ]
+);
+
+$rentals[] = new SkiRental(
+    5,
+    4,
+    67,
+    new DateTime('2024-11-7'),
+    new DateTime('2024-11-16'),
+    [
+        'description' => 'Skis for beginners'
+    ]
+);
+
+$rentals[] = new SkiRental(
+    6,
+    5,
+    67,
+    new DateTime('2024-11-10'),
+    new DateTime('2024-11-25'),
+    [
+        'description' => 'Skis for beginners'
+    ]
+);
+
+$rentals[] = new SkiRental(
+    7,
+    5,
+    67,
+    new DateTime('2024-11-5'),
+    new DateTime('2024-11-5'),
+    [
+        'description' => 'Skis for beginners'
+    ]
+);
+
+$rentals[] = new SkiRental(
+    8,
+    6,
+    67,
+    new DateTime('2024-11-3'),
+    new DateTime('2024-11-17'),
+    [
+        'description' => 'Skis for beginners'
     ]
 );
 
@@ -64,38 +141,91 @@ $skis[] = new Ski(2, [
     'description' => 'Skis for professionals'
 ]);
 
-$ski_0 = $skis[0];
+$skis[] = new Ski(3, [
+    'mark' => 'Nike',
+    'model' => 'ski 1000',
+    'length' => 160,
+    'description' => 'Skis for professionals'
+]);
+
+$skis[] = new Ski(4, [
+    'mark' => 'Converse',
+    'model' => 'Mulda 8',
+    'length' => 180,
+    'description' => 'Skis for professionals'
+]);
+
+$skis[] = new Ski(5, [
+    'mark' => 'Nike',
+    'model' => 'ski 1400',
+    'length' => 160,
+    'description' => 'Skis for professionals'
+]);
+
+$skis[] = new Ski(6, [
+    'mark' => 'Nike',
+    'model' => 'ski 1400',
+    'length' => 160,
+    'description' => 'Skis for professionals'
+]);
+
+$skis[0]->addEvent($rentals[0]);
+$skis[1]->addEvent($rentals[1]);
+$skis[1]->addEvent($rentals[2]);
+$skis[2]->addEvent($rentals[3]);
+$skis[3]->addEvent($rentals[4]);
+$skis[4]->addEvent($rentals[5]);
+$skis[4]->addEvent($rentals[6]);
+$skis[5]->addEvent($rentals[7]);
 
 $color = new Color();
 
-var_dump([
-    'lang' => $lang,
-    'requestedYear' => $requestedYear,
-    'requestedMonth' => $requestedMonth,
-    // Test ValueObject: $day
-    'day' => $day,
-    'dayName' => $day->getDayName(),
-    'isWeekend' => $day->isWeekend(),
-    'isToday' => $day->isToday(),
-    // 'calendar' => $calendar,
-    'rental' => [
-        'objectId' => $rental->getObjectId(),
-        'clientId' => $rental->getClientId(),
-        'description' => $rental->getDescription(),
-        'startDate' => $rental->getStartDate()->format('d.m.Y'),
-        'endDate' => $rental->getEndDate()->format('d.m.Y'),
-        'duration' => $rental->getDuration(),
-        'occursOn' => $rental->occursOn($day),
-    ],
-    'skis' => $skis,
-    'ski_0' => [
-        'id' => $ski_0->getId(),
-        'name' => $ski_0->getName(),
-        'description' => $ski_0->getDescription(),
-        'mark' => $ski_0->getMark(),
-        'model' => $ski_0->getModel(),
-        'length' => $ski_0->getLength(),
-        'events' => $ski_0->getEvents(),
-    ]
-]);
+// var_dump([
+//     'lang' => $lang,
+//     'requestedYear' => $requestedYear,
+//     'requestedMonth' => $requestedMonth,
+//     // Test ValueObject: $day
+//     'day' => $day,
+//     'dayName' => $day->getDayName(),
+//     'isWeekend' => $day->isWeekend(),
+//     'isToday' => $day->isToday(),
+//     // 'calendar' => $calendar,
+//     'skis' => $skis,
+//     'rental' => $rentals[0],
+//     'rentalData' => [
+//         'eventId' => $rental->getEventId(),
+//         'objectId' => $rental->getObjectId(),
+//         'clientId' => $rental->getClientId(),
+//         'description' => $rental->getDescription(),
+//         'startDate' => $rental->getStartDate()->format('d.m.Y'),
+//         'endDate' => $rental->getEndDate()->format('d.m.Y'),
+//         'duration' => $rental->getDuration(),
+//         'occursOn' => $rental->occursOn($day),
+//     ],
+// ]);
 
+$calendarRenderer = new MonthlyHorizontalCalendarRenderer($calendar, $skis, 'Narty do wypożyczenia');
+?>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Calendar</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <!-- Zebra_DatePicker CSS -->
+    <link rel="stylesheet" href="./zebra_datepicker.min.css">
+    <!-- style.css -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="container-fluid">
+<div class="mb-4 calendar-events">
+    <?=$calendarRenderer->render();?>
+</div>
+<!-- JQuery -->
+<script src="./jquery-3.6.0.min.js"></script>
+<!-- Zebra_DatePicker JavaScript -->
+<script src="./zebra_datepicker.min.js"></script>
+</body>
+</html>

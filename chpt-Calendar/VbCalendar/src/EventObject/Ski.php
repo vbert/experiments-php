@@ -5,7 +5,7 @@
  * File Created: 2024-11-21, 21:29:51
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-22, 10:07:56
+ * Last Modified: 2024-11-24, 17:59:20
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -62,7 +62,6 @@ class Ski implements GeneralObjectInterface {
             $name[] = (int) $this->getLength();
         }
 
-        $name[] = "(id: {$this->getId()})";
         return implode(' ', $name);
     }
 

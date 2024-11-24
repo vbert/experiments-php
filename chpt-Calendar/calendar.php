@@ -5,7 +5,7 @@
  * File Created: 2024-10-29, 9:36:40
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-07, 15:43:17
+ * Last Modified: 2024-11-24, 18:24:21
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -212,7 +212,6 @@ class CalendarRenderer {
 
     public function render(): string {
         $html = '<div class="table-responsive">';
-        // $html .= '<table class="table table-sm table-striped table-hover table-bordered table-events">';
         $html .= '<table class="table table-sm table-striped table-hover table-bordered table-events">';
         $html .= '<thead>';
         $html .= $this->renderDayNumbers();
@@ -284,19 +283,6 @@ class CalendarRenderer {
                 $currentMonth = "{$this->calendar->getYear()}-{$this->calendar->getMonth()}";
                 $isEventContinuedFromPreviousMonth = $startEventMonth < $currentMonth;
                 $isEventContinuedToNextMonth = $endEventMonth > $currentMonth;
-
-// var_dump([
-//     'day' => $day->getDate(),
-//     'days' => count($days),
-//     'event' => $event,
-//     'start' => $event->getStartDate()->format('Y-n'),
-//     'end' => $event->getEndDate()->format('Y-n'),
-//     'current' => "{$this->calendar->getYear()}-{$this->calendar->getMonth()}",
-//     'startDayIndex' => $startDayIndex,
-//     'endDayIndex' => $endDayIndex,
-//     'isEventContinuedFromPreviousMonth' => $isEventContinuedFromPreviousMonth,
-//     'isEventContinuedToNextMonth' => $isEventContinuedToNextMonth
-// ]);
 
                 // Renderowanie wydarzenia dla każdego dnia w bieżącym miesiącu
                 for ($j = $startDayIndex; $j <= $endDayIndex; $j++) {
@@ -402,7 +388,7 @@ $skis3 = new Skis(3, "Skis Green", "Green colored skis for middle.", "#66ff66");
 $event1 = new Event("Rental 1", new DateTime("2024-10-05"), new DateTime("2024-10-27"));
 $event2 = new Event("Rental 2", new DateTime("2024-10-09"), new DateTime("2024-10-09"));
 $event3 = new Event("Rental 3", new DateTime("2024-10-27"), new DateTime("2024-11-10"));
-$event4 = new Event("Rental 4", new DateTime("2024-10-29"), new DateTime("2024-11-01"));
+$event4 = new Event("Rental 4", new DateTime("2024-11-12"), new DateTime("2024-12-01"));
 $event5 = new Event("Rental 5", new DateTime("2024-10-31"), new DateTime("2024-11-01"));
 
 $skis2->addEvent($event5);

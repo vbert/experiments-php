@@ -5,7 +5,7 @@
  * File Created: 2024-11-07, 14:31:36
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-21, 21:11:25
+ * Last Modified: 2024-11-23, 22:12:51
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -21,17 +21,22 @@ use Vbert\VbCalendar\Calendar\CalendarDay;
 
 class SkiRental implements EventInterface {
     private int $eventId;
+    private int $objectId;
+    private int $clientId;
     private array $metadata;
     private DateTime $startDate;
     private DateTime $endDate;
-    private DateTime $returnDate;
+    private ?DateTime $returnDate;
     private int $duration;
 
 
-    public function __construct(int $eventId, DateTime $startDate, DateTime $endDate, array $metadata=[]) {
+    public function __construct(int $eventId, $objectId, $clientId, DateTime $startDate, DateTime $endDate, array $metadata=[]) {
         $this->eventId = $eventId;
+        $this->objectId = $objectId;
+        $this->clientId = $clientId;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
+        $this->returnDate = null;
         $this->metadata = $metadata;
 
         $interval = $startDate->diff($endDate);
@@ -42,12 +47,12 @@ class SkiRental implements EventInterface {
         return $this->eventId;
     }
 
-    public function getObjectId(): ?int {
-        return $this->metadata['objectId'] ?? null;
+    public function getObjectId(): int {
+        return $this->objectId;
     }
 
-    public function getClientId(): ?int {
-        return $this->metadata['clientId'] ?? null;
+    public function getClientId(): int {
+        return $this->clientId;
     }
 
     public function getMetadata(): array {
@@ -74,7 +79,7 @@ class SkiRental implements EventInterface {
         $this->endDate = $endDate;
     }
 
-    public function getReturnDate(): DateTime {
+    public function getReturnDate(): ?DateTime {
         return $this->returnDate;
     }
 

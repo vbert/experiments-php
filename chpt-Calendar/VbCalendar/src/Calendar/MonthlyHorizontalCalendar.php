@@ -1,11 +1,11 @@
 <?php
 /*
  * Project: VbCalendar/Calendar
- * File: /MonthlyCalendar.php
+ * File: /MonthlyHorizontalCalendar.php
  * File Created: 2024-11-07, 13:28:34
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-21, 21:19:46
+ * Last Modified: 2024-11-24, 17:34:59
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -18,10 +18,10 @@ use Vbert\VbCalendar\Calendar\CalendarInterface;
 
 
 /**
- * Class MonthlyCalendar
+ * Class MonthlyHorizontalCalendar
  * @package Vbert\VbCalendar\Calendar
  */
-class MonthlyCalendar implements CalendarInterface {
+class MonthlyHorizontalCalendar implements CalendarInterface {
     private int $year;
     private int $month;
     private int $day;
@@ -29,7 +29,7 @@ class MonthlyCalendar implements CalendarInterface {
     private ?CalendarLangInterface $lang;
 
     /**
-     * MonthlyCalendar constructor.
+     * MonthlyHorizontalCalendar constructor.
      * @param int $year
      * @param int $month
      * @param CalendarLangInterface|null $lang

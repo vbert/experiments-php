@@ -1,0 +1,240 @@
+/*
+ * Project: chpt-Calendar
+ * File: /style.css
+ * File Created: 2024-10-29, 14:16:07
+ * Author: Wojciech Sobczak (wsobczak@gmail.com)
+ * -----
+ * Last Modified: 2024-11-24, 22:50:27
+ * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
+ * -----
+ * Copyright © 2021 - 2024 by vbert
+ */
+
+.calendar-events .calendar-nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.table-sm > :not(caption) > * > * {
+    padding: .425rem .325rem;
+}
+
+.table-events {
+    table-layout: fixed;
+    width: max(65rem, 100%);
+}
+
+.table-events th:first-of-type,
+.table-events td:first-of-type {
+    min-width: 12rem;
+    width: 12rem;
+}
+
+.table-events th:not(:first-child),
+.table-events td:not(:first-child) {
+    min-width: 30px;
+}
+
+.table-events thead th,
+.table-events thead td {
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    text-align: center;
+}
+
+.table-events thead th,
+.table-events thead td {
+    background-color: #def;
+}
+
+.table-events thead .weekend {
+    background-color: #fdd;
+}
+
+.table-events thead .today,
+.table-events thead .weekend.today {
+    background-color: #dfd;
+}
+
+.table-events thead th:first-child,
+.table-events tbody td:first-child {
+    position: sticky;
+    inset-inline-start: 0;
+    /* border-inline-end: none; */
+}
+
+.table-events thead th:first-child {
+    background-color: #ffd;
+}
+
+.table-events thead tr td {
+    font-size: .75rem;
+}
+
+.table-events tbody .weekend {
+    background-color: rgba(255, 221, 221, .75);
+}
+
+.table-events tbody .today,
+.table-events tbody .weekend.today {
+    background-color: rgba(221, 255, 221, .75);
+}
+
+.table-events .calendar-event {
+    padding-left: 0;
+    padding-right: 0;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table-events .calendar-event .calendar-event-bar {
+    display: inline-block;
+    width: 100%;
+    height: 20%;
+    max-height: 12px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+.table-events .calendar-event.rounded-start {
+    text-align: right;
+}
+
+.table-events .calendar-event.rounded-start .calendar-event-bar {
+    width: 90%;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.table-events .calendar-event.rounded-end {
+    text-align: left;
+}
+
+.table-events .calendar-event.rounded-end .calendar-event-bar {
+    width: 90%;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.table-events .calendar-event.rounded {
+    text-align: center;
+}
+
+.table-events .calendar-event.rounded .calendar-event-bar {
+    width: 90%;
+    max-width: 30px;
+    border-radius: 6px;
+}
+
+/* Calendar Holder */
+#calendarHolder {
+    /* position: absolute; */
+    top: -21px;
+    right: 0;
+    overflow: none;
+}
+
+.calendar-today {
+    position: relative;
+    margin: 0 0 .25px 0;
+    padding-top: 5px;
+    width: 64px;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px var(--bs-gray-600);
+    background: var(--bs-gray-100);
+    background: linear-gradient(180deg, var(--bs-gray-100), var(--bs-gray-300));
+}
+
+.calendar-today::before {
+    left: 7px;
+}
+.calendar-today::after {
+    right: 7px;
+}
+
+.calendar-today::before,
+.calendar-today::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    width: 6px;
+    height: 6px;
+    border-radius: 10px;
+    background-color: var(--bs-gray-900);
+    box-shadow: 0 1px 1px var(--bs-white);
+    z-index: 1;
+}
+
+.calendar-today-month-day {
+    color: var(--bs-black);
+    line-height: 2.325rem;
+    font-family: 'Arial Black', Arial, Helvetica, sans-serif;
+    font-size: 1.325rem;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: var(--bs-white) 0 1px 0;
+}
+
+.calendar-today-month-year {
+    display: block;
+    border-top: 1px solid var(--bs-focus-ring-color);
+    border-radius: 0 0 3px 3px;
+    background: var(--bs-link-hover-color);
+    background: linear-gradient(180deg, var(--bs-link-hover-color), var(--bs-primary-text-emphasis));
+    color: var(--bs-white);
+    line-height: 1.325rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .675rem;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: var(--bs-primary-text-emphasis) 0 1px 0;
+    text-transform: uppercase;
+}
+
+.calendar-today-month-year::before {
+    left: 9px;
+}
+.calendar-today-month-year::after {
+    right: 9px;
+}
+
+.calendar-today-month-year::before,
+.calendar-today-month-year::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    width: 2px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--bs-gray-300);
+    background: linear-gradient(180deg, var(--bs-gray-200), var(--bs-gray-500));
+    z-index: 2;
+}
+
+.calendar-current-hour {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: .325rem;
+    color: var(--bs-gray-900);
+    line-height: 1.725rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .875rem;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#calendarCurrentHour {
+    display: block;
+}
+
+.calendar-current-hour-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-image: url('icons.png');
+    background-repeat: no-repeat;
+    background-position: center -96px;
+    opacity: .35;
+}
