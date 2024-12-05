@@ -1,11 +1,11 @@
 <?php
 /*
  * Project: state
- * File: /automat-sprzedajacy.php
+ * File: /vending-machine.php
  * File Created: 2024-12-05, 10:15:44
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-12-05, 10:40:00
+ * Last Modified: 2024-12-05, 11:37:49
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
