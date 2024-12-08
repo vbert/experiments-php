@@ -5,7 +5,7 @@
  * File Created: 2024-12-05, 11:35:50
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-12-05, 11:37:12
+ * Last Modified: 2024-12-05, 20:51:45
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -85,10 +85,12 @@ class CancelledOrderState implements OrderState
 // 3. Klasa Order, która przechowuje aktualny stan zamówienia
 class Order 
 {
+    private OrderState $state;
+
     // Domyślny stan nowego zamówienia
-    public function __construct(
-    	private OrderState $state
-    ) { }
+    public function __construct(OrderState $state) {
+        $this->state = $state;
+    }
 
     public function setState(OrderState $state) {
         $this->state = $state;
@@ -108,7 +110,8 @@ class Order
 }
 
 // 4. Przykładowe użycie
-$order = new Order();
+$newOrderState = new NewOrderState();
+$order = new Order($newOrderState);
 echo "Aktualny stan zamówienia: " . $order->getStatus() . "\n"; // Nowe
 $order->proceedToNext();                                        // Przejście do przetwarzania
 echo "Aktualny stan zamówienia: " . $order->getStatus() . "\n"; // Przetwarzane
