@@ -5,7 +5,7 @@
  * File Created: 2024-10-28, 10:25:02
  * Author: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
- * Last Modified: 2024-11-05, 23:37:28
+ * Last Modified: 2025-08-05, 13:12:49
  * Modified By: Wojciech Sobczak (wsobczak@gmail.com)
  * -----
  * Copyright © 2021 - 2024 by vbert
@@ -28,13 +28,13 @@ $calendar = new HorizontalMonthlyCalendar(new CalendarPL(), '2024-5');
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Horizontal Montly Calendar</title>
+        <title>Horizontal Monthly Calendar</title>
         <link href="./style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <nav class="navtop">
             <div>
-                <h1 class="title">Horizontal Montly Calendar</h1>
+                <h1 class="title">Horizontal Monthly Calendar</h1>
             </div>
         </nav>
         <div class="content home">
